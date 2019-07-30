@@ -12,9 +12,9 @@ data class EntityEmployee(
     val id: Long,
     val firstName: String,
     val lastName: String,
-    val birthday: Date,
+    val birthday: Long,
     val avatarPath: String){
 
     @Ignore
-    constructor(employee: Employee): this(employee.id, employee.firstName, employee.lastName, employee.birthday, employee.avatarPath)
+    constructor(employee: Employee): this(employee.id, employee.firstName, employee.lastName, employee.birthday.time, employee.avatarPath)
 }

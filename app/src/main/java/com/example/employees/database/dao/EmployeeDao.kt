@@ -12,7 +12,7 @@ import com.example.employees.database.model.Employee
 abstract class EmployeeDao {
 
     @Transaction
-    fun insert(employee: Employee){
+    open fun insert(employee: Employee){
         val employeeId = insertEntityEmployee(EntityEmployee(employee))
         employee.specialties.forEach {
             insertEntityEmployeeSpecialty(EntityEmployeeSpecialty(employeeId, it.id))

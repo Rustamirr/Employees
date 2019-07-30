@@ -6,12 +6,12 @@ import com.example.employees.database.entity.EntitySpecialty
 import com.example.employees.database.model.Specialty
 
 @Dao
-interface SpecialtyDao {
+abstract class SpecialtyDao {
 
     fun insert(specialty: Specialty){
         insertEntitySpecialty(EntitySpecialty(specialty))
     }
 
     @Insert
-    fun insertEntitySpecialty(entitySpecialty: EntitySpecialty)
+    abstract fun insertEntitySpecialty(entitySpecialty: EntitySpecialty)
 }
