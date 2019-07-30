@@ -6,7 +6,7 @@ import com.example.employees.database.entity.EntityEmployeeSpecialty
 import com.example.employees.database.entity.EntitySpecialty
 import com.example.employees.database.model.Employee
 import com.example.employees.database.model.Specialty
-import com.example.employees.database.request.RequestEmployee
+import com.example.employees.database.request.EmployeeSpecialty
 import io.reactivex.Observable
 import java.util.*
 
@@ -18,13 +18,13 @@ abstract class EmployeeDao {
         val employeeId = insertEntityEmployee(EntityEmployee(employee))
         employee.specialties.forEach {
             insertEntitySpecialty(EntitySpecialty(it))
-            insertEntityEmployeeSpecialty(EntityEmployeeSpecialty(employeeId, it.id))
+            insertEntityEmployeeSpecialty(EntityEmployeeSpecialty(employeeId = employeeId, specialtyId = it.id))
         }
     }
 
     fun getAll(): Observable<List<Employee>> =
-        getAllRequestEmployee().map {list: List<RequestEmployee> ->
-            list.map {requestEmployee ->
+        getAllRequestEmployee().map {list: List<EmployeeSpecialty> ->
+            /*list.map {requestEmployee ->
                 val entityEmployee = requestEmployee.entityEmployee
                 val entitySpecialties = requestEmployee.entitySpecialties
 
@@ -32,7 +32,7 @@ abstract class EmployeeDao {
 
                 Employee(entityEmployee.id, entityEmployee.firstName, entityEmployee.lastName, Date(entityEmployee.birthday),
                     entityEmployee.avatarPath, specialties)
-            }
+            }*/
         }
 
     @Insert
@@ -44,6 +44,6 @@ abstract class EmployeeDao {
     @Insert
     abstract fun insertEntityEmployeeSpecialty(entityEmployeeSpecialty: EntityEmployeeSpecialty)
 
-    @Query("Select * From Employees")
-    abstract fun getAllRequestEmployee(): Observable<List<RequestEmployee>>
+    @Query("Select Employees.*, Specialties.id as specialtyId, Specialties.name as specialtyName From Employees left join EmployeesSpecialties on Employees.id = employeeId left join Specialties on Specialties.id = specialtyId")
+    abstract fun getAllRequestEmployee(): Observable<List<EmployeeSpecialty>>
 }

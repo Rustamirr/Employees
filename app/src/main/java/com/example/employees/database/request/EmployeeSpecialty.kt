@@ -6,10 +6,9 @@ import com.example.employees.database.entity.EntityEmployee
 import com.example.employees.database.entity.EntityEmployeeSpecialty
 import com.example.employees.database.entity.EntitySpecialty
 
-class RequestEmployee(
+data class EmployeeSpecialty(
     @Embedded
     val entityEmployee: EntityEmployee,
-
-    @Relation(parentColumn = "id", entityColumn = "employeeId", entity = EntityEmployeeSpecialty::class)
-    val entitySpecialties: List<EntitySpecialty>
+    val specialtyId: Long,
+    val specialtyName: String
 )
