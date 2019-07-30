@@ -8,8 +8,8 @@ data class Employee(
     val lastName: String,
     val birthday: Date,
     val avatarPath: String,
-    val specialties: Set<Specialty>) {
+    val specialties: List<Specialty>) {
 
-    constructor(firstName: String, lastName: String, birthday: Date, avatarPath: String, specialties: Set<Specialty>): this (
+    constructor(firstName: String, lastName: String, birthday: Date, avatarPath: String, specialties: List<Specialty>): this (
         0, firstName, lastName, birthday, avatarPath, specialties)
 }
