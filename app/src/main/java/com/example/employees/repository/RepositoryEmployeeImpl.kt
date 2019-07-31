@@ -3,10 +3,10 @@ package com.example.employees.repository
 import com.example.employees.database.dao.EmployeeDao
 import com.example.employees.database.model.Employee
 
-class RepositoryEmployee(
-    private val employeeDao: EmployeeDao) {
+class RepositoryEmployeeImpl(
+    private val employeeDao: EmployeeDao): RepositoryEmployee {
 
-    fun insert(employee: Employee) {
+    override fun insert(employee: Employee) {
         employeeDao.insert(employee)
     }
 }

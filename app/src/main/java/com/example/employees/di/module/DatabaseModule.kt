@@ -8,7 +8,11 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.employees.database.AppDatabase
 import com.example.employees.database.dao.EmployeeDao
+import com.example.employees.database.dao.SpecialtyDao
 import com.example.employees.repository.RepositoryEmployee
+import com.example.employees.repository.RepositoryEmployeeImpl
+import com.example.employees.repository.RepositorySpecialty
+import com.example.employees.repository.RepositorySpecialtyImpl
 import dagger.Module
 import dagger.Provides
 import java.util.*
@@ -47,7 +51,14 @@ class DatabaseModule(private val databaseName: String) {
     @Provides
     fun provideEmployeeDao(appDatabase: AppDatabase): EmployeeDao = appDatabase.getEmployeeDao()
 
+    @Provides
+    fun provideSpecialtyDao(appDatabase: AppDatabase): SpecialtyDao = appDatabase.getSpecialtyDao()
+
     @Singleton
     @Provides
-    fun provideRepositoryEmployee(employeeDao: EmployeeDao) = RepositoryEmployee(employeeDao)
+    fun provideRepositoryEmployee(employeeDao: EmployeeDao): RepositoryEmployee = RepositoryEmployeeImpl(employeeDao)
+
+    @Singleton
+    @Provides
+    fun provideRepositorySpecialty(specialtyDao: SpecialtyDao): RepositorySpecialty = RepositorySpecialtyImpl(specialtyDao)
 }
