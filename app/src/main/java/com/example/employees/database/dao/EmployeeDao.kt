@@ -22,7 +22,7 @@ abstract class EmployeeDao {
         }
     }
 
-    fun getAll(): Observable<List<Employee>> =
+    /*fun getAll(): Observable<List<Employee>> =
         getAllRequestEmployee().map {list: List<EmployeeSpecialty> ->
             /*list.map {requestEmployee ->
                 val entityEmployee = requestEmployee.entityEmployee
@@ -33,7 +33,7 @@ abstract class EmployeeDao {
                 Employee(entityEmployee.id, entityEmployee.firstName, entityEmployee.lastName, Date(entityEmployee.birthday),
                     entityEmployee.avatarPath, specialties)
             }*/
-        }
+        }*/
 
     @Insert
     abstract fun insertEntityEmployee(entityEmployee: EntityEmployee): Long
@@ -44,6 +44,8 @@ abstract class EmployeeDao {
     @Insert
     abstract fun insertEntityEmployeeSpecialty(entityEmployeeSpecialty: EntityEmployeeSpecialty)
 
-    @Query("Select Employees.*, Specialties.id as specialtyId, Specialties.name as specialtyName From Employees left join EmployeesSpecialties on Employees.id = employeeId left join Specialties on Specialties.id = specialtyId")
+    @Query("""Select Employees.*, Specialties.id as specialtyId, Specialties.name as specialtyName From Employees
+        left join EmployeesSpecialties on Employees.id = employeeId 
+        left join Specialties on Specialties.id = specialtyId""")
     abstract fun getAllRequestEmployee(): Observable<List<EmployeeSpecialty>>
 }

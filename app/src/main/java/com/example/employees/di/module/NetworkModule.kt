@@ -12,8 +12,7 @@ import javax.inject.Singleton
 class NetworkModule(private val baseUrl: String) {
     @Singleton
     @Provides
-    fun provideRetrofit(): Retrofit =
-        Retrofit.Builder()
+    fun provideRetrofit(): Retrofit = Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
