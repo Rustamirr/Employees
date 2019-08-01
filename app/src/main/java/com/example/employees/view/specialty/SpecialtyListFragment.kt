@@ -13,8 +13,9 @@ class SpecialtyListFragment: ListFragment() {
         fun newInstance() = SpecialtyListFragment()
     }
 
-    //override fun onCreate(savedInstanceState: Bundle?) {
-    //    super.onCreate(savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
         //val adapter = ArrayAdapter(App.instance, android.R.layout.simple_list_item_1, ))
-    //}
+    }
 }

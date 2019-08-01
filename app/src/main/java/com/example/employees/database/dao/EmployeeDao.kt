@@ -8,11 +8,13 @@ import com.example.employees.database.model.Employee
 import com.example.employees.database.model.Specialty
 import com.example.employees.database.request.EmployeeSpecialty
 import io.reactivex.Observable
+import io.reactivex.Single
+import java.lang.Exception
 import java.util.*
+import kotlin.collections.ArrayList
 
 @Dao
 abstract class EmployeeDao {
-
     @Transaction
     open fun insert(employee: Employee){
         val employeeId = insertEntityEmployee(EntityEmployee(employee))
@@ -22,18 +24,43 @@ abstract class EmployeeDao {
         }
     }
 
-    /*fun getAll(): Observable<List<Employee>> =
-        getAllRequestEmployee().map {list: List<EmployeeSpecialty> ->
-            /*list.map {requestEmployee ->
-                val entityEmployee = requestEmployee.entityEmployee
-                val entitySpecialties = requestEmployee.entitySpecialties
+    fun getAll(): Observable<List<Employee>> =
+        requestAllEmployeeSpecialty().map { list: List<EmployeeSpecialty> ->
+            val result = ArrayList<Employee>()
+            val specialties = ArrayList<Specialty>()
 
-                val specialties = entitySpecialties.map { Specialty(it.id, it.name) }
+            for (i in 0 until list.size){
+                val employeeSpecialty = list[i]
+                val entityEmployee = employeeSpecialty.entityEmployee
 
-                Employee(entityEmployee.id, entityEmployee.firstName, entityEmployee.lastName, Date(entityEmployee.birthday),
-                    entityEmployee.avatarPath, specialties)
-            }*/
-        }*/
+                if (employeeSpecialty.specialtyId != null && employeeSpecialty.specialtyName != null) {
+                    specialties.add(Specialty(employeeSpecialty.specialtyId, employeeSpecialty.specialtyName))
+                }
+
+                if (i == list.size - 1 || entityEmployee.id != list[i + 1].entityEmployee.id){
+                    result.add(Employee(entityEmployee.id, entityEmployee.firstName, entityEmployee.lastName,
+                        if (entityEmployee.birthday != null) Date(entityEmployee.birthday) else null, entityEmployee.avatarPath, specialties))
+                    specialties.clear()
+                }
+            }
+            result
+        }
+
+    fun getById(id: Long): Single<Employee> =
+        requestEmployeeSpecialtyById(id).map { list: List<EmployeeSpecialty> ->
+            if (list.isEmpty()) {
+                throw Exception("Not found employee by id: $id")
+            }
+            val entityEmployee = list[0].entityEmployee
+            val specialties = ArrayList<Specialty>()
+            list.forEach{
+                if (it.specialtyId != null && it.specialtyName != null) {
+                    specialties.add(Specialty(it.specialtyId, it.specialtyName))
+                }
+            }
+            Employee(entityEmployee.id, entityEmployee.firstName, entityEmployee.lastName,
+                if (entityEmployee.birthday != null) Date(entityEmployee.birthday) else null, entityEmployee.avatarPath, specialties)
+        }
 
     @Insert
     abstract fun insertEntityEmployee(entityEmployee: EntityEmployee): Long
@@ -46,6 +73,13 @@ abstract class EmployeeDao {
 
     @Query("""Select Employees.*, Specialties.id as specialtyId, Specialties.name as specialtyName From Employees
         left join EmployeesSpecialties on Employees.id = employeeId 
-        left join Specialties on Specialties.id = specialtyId""")
-    abstract fun getAllRequestEmployee(): Observable<List<EmployeeSpecialty>>
+        left join Specialties on Specialties.id = specialtyId
+        Order by Employees.id""")
+    abstract fun requestAllEmployeeSpecialty(): Observable<List<EmployeeSpecialty>>
+
+    @Query("""Select Employees.*, Specialties.id as specialtyId, Specialties.name as specialtyName From Employees
+        left join EmployeesSpecialties on Employees.id = employeeId 
+        left join Specialties on Specialties.id = specialtyId
+        Where Employees.id = :id""")
+    abstract fun requestEmployeeSpecialtyById(id: Long): Single<List<EmployeeSpecialty>>
 }

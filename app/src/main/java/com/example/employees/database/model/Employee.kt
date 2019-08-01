@@ -6,6 +6,6 @@ data class Employee(
     val id: Long = 0,
     val firstName: String,
     val lastName: String,
-    val birthday: Date,
-    val avatarPath: String,
+    val birthday: Date?,
+    val avatarPath: String?,
     val specialties: List<Specialty>)

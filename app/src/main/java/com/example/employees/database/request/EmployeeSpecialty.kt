@@ -9,6 +9,6 @@ import com.example.employees.database.entity.EntitySpecialty
 data class EmployeeSpecialty(
     @Embedded
     val entityEmployee: EntityEmployee,
-    val specialtyId: Long,
-    val specialtyName: String
+    val specialtyId: Long?,
+    val specialtyName: String?
 )

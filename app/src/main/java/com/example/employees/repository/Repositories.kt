@@ -2,11 +2,16 @@ package com.example.employees.repository
 
 import com.example.employees.database.model.Employee
 import com.example.employees.database.model.Specialty
+import io.reactivex.Observable
+import io.reactivex.Single
 
-interface RepositoryEmployee {
-    fun insert(employee: Employee)
+interface BaseRepository<T> {
+    fun insert(t: T)
+    fun getAll(): Observable<List<T>>
 }
 
-interface RepositorySpecialty {
-    fun insert(specialty: Specialty)
+interface RepositoryEmployee: BaseRepository<Employee> {
+    fun getById(id: Long): Single<Employee>
 }
+
+interface RepositorySpecialty: BaseRepository<Specialty>
