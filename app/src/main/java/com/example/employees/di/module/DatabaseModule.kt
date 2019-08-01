@@ -27,26 +27,57 @@ class DatabaseModule(private val databaseName: String) {
             .addCallback(object : RoomDatabase.Callback(){
                 override fun onCreate(db: SupportSQLiteDatabase){
                     super.onCreate(db)
-                    // Инициализацию базы необходимо выполнять в потоке UI, чтобы база заполнилась
-                    // еще до выполнения запросов на выборку
-                    val cv = ContentValues()
-                    cv.put("name", "Specialty1")
-                    val specialtyId = db.insert("Specialties", OnConflictStrategy.ABORT, cv)
-
-                    cv.clear()
-                    cv.put("firstName", "Иванов")
-                    cv.put("lastName", "Иван")
-                    cv.put("birthday", Date().time)
-                    cv.put("avatarPath", "")
-                    val employeeId = db.insert("Employees", OnConflictStrategy.ABORT, cv)
-
-                    cv.clear()
-                    cv.put("employeeId", employeeId)
-                    cv.put("specialtyId", specialtyId)
-                    db.insert("EmployeesSpecialties", OnConflictStrategy.ABORT, cv)
+                    createTestData(db)
                 }
             })
             .build()
+
+    private fun createTestData(db: SupportSQLiteDatabase){
+        // Employees
+        val cv = ContentValues()
+        cv.put("firstName", "Ivan")
+        cv.put("lastName", "Ivanov")
+        val employeeId1 = db.insert("Employees", OnConflictStrategy.ABORT, cv)
+
+        cv.clear()
+        cv.put("firstName", "Alex")
+        cv.put("lastName", "Alexandrov")
+        val employeeId2 = db.insert("Employees", OnConflictStrategy.ABORT, cv)
+
+        cv.clear()
+        cv.put("firstName", "Sara")
+        cv.put("lastName", "Connar")
+        db.insert("Employees", OnConflictStrategy.ABORT, cv)
+
+        // Specialties
+        cv.clear()
+        cv.put("name", "Specialty 1")
+        val specialtyId1 = db.insert("Specialties", OnConflictStrategy.ABORT, cv)
+
+        cv.clear()
+        cv.put("name", "Specialty 2")
+        val specialtyId2 = db.insert("Specialties", OnConflictStrategy.ABORT, cv)
+
+        cv.clear()
+        cv.put("name", "Specialty 3")
+        db.insert("Specialties", OnConflictStrategy.ABORT, cv)
+
+        // Relations
+        cv.clear()
+        cv.put("employeeId", employeeId1)
+        cv.put("specialtyId", specialtyId1)
+        db.insert("EmployeesSpecialties", OnConflictStrategy.ABORT, cv)
+
+        cv.clear()
+        cv.put("employeeId", employeeId1)
+        cv.put("specialtyId", specialtyId2)
+        db.insert("EmployeesSpecialties", OnConflictStrategy.ABORT, cv)
+
+        cv.clear()
+        cv.put("employeeId", employeeId2)
+        cv.put("specialtyId", specialtyId1)
+        db.insert("EmployeesSpecialties", OnConflictStrategy.ABORT, cv)
+    }
 
     @Provides
     fun provideEmployeeDao(appDatabase: AppDatabase): EmployeeDao = appDatabase.getEmployeeDao()

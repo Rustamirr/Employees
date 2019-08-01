@@ -1,11 +1,7 @@
-package com.example.employees.view.specialty
+package com.example.employees.view.list_specialty
 
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.SimpleAdapter
 import androidx.fragment.app.ListFragment
-import com.example.employees.App
-import com.example.employees.database.model.Specialty
 
 class SpecialtyListFragment: ListFragment() {
     //lateinit var presenter:

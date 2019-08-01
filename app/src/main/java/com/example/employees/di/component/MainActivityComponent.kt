@@ -2,6 +2,8 @@ package com.example.employees.di.component
 
 import com.example.employees.di.ActivityScope
 import com.example.employees.di.module.ActivityModule
+import com.example.employees.view.list_employee.EmployeeListFragment
+import com.example.employees.view.list_employee.EmployeeListFragmentPresenter
 import dagger.Subcomponent
 import ru.terrakok.cicerone.Cicerone
 import ru.terrakok.cicerone.Router
@@ -10,4 +12,5 @@ import ru.terrakok.cicerone.Router
 @Subcomponent(modules = [ActivityModule::class])
 interface MainActivityComponent {
     fun getCicerone(): Cicerone<Router>
+    fun inject(employeeListFragmentPresenter: EmployeeListFragmentPresenter)
 }
