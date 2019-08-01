@@ -2,4 +2,7 @@
     <string name="app_name">Employees</string>
     <string name="employees">Employees</string>
     <string name="specialties">Specialties</string>
+    <string name="avatar">avatar</string>
+    <string name="birthday">birthday</string>
+    <string name="age">age</string>
 </resources>
