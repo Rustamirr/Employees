@@ -1,5 +1,8 @@
 package com.example.employees.di.module
 
+import android.content.Context
+import android.widget.ArrayAdapter
+import com.example.employees.database.model.Specialty
 import com.example.employees.di.ActivityScope
 import com.example.employees.view.list_employee.EmployeeAdapter
 import dagger.Module
@@ -15,4 +18,8 @@ class ActivityModule {
 
     @Provides
     fun provideEmployeeAdapter(): EmployeeAdapter = EmployeeAdapter()
+
+    @Provides
+    fun provideArrayAdapter(context: Context): ArrayAdapter<Specialty> =
+        ArrayAdapter(context, android.R.layout.simple_spinner_item, ArrayList<Specialty>())
 }

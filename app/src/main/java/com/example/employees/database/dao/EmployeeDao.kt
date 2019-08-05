@@ -24,43 +24,37 @@ abstract class EmployeeDao {
         }
     }
 
-    fun getAll(): Observable<List<Employee>> =
-        requestAllEmployeeSpecialty().map { list: List<EmployeeSpecialty> ->
-            val result = ArrayList<Employee>()
-            val specialties = ArrayList<Specialty>()
+    fun getAll(): Single<List<Employee>> = requestAllEmployeeSpecialty().map { employeeSpecialtyToEmployee(it) }
 
-            for (i in 0 until list.size){
-                val employeeSpecialty = list[i]
-                val entityEmployee = employeeSpecialty.entityEmployee
+    fun getBySpecialty(specialty: Specialty): Single<List<Employee>> =
+        requestEmployeeSpecialtyBySpecialty(specialty.id).map { employeeSpecialtyToEmployee(it) }
 
-                if (employeeSpecialty.specialtyId != null && employeeSpecialty.specialtyName != null) {
-                    specialties.add(Specialty(employeeSpecialty.specialtyId, employeeSpecialty.specialtyName))
-                }
+    fun getById(id: Long): Single<Employee> =
+        requestEmployeeSpecialtyById(id).map { employeeSpecialtyToEmployee(it).first() }
 
-                if (i == list.size - 1 || entityEmployee.id != list[i + 1].entityEmployee.id){
-                    result.add(Employee(entityEmployee.id, entityEmployee.firstName, entityEmployee.lastName,
-                        if (entityEmployee.birthday != null) Date(entityEmployee.birthday) else null, entityEmployee.avatarPath, specialties))
+    private fun employeeSpecialtyToEmployee(list: List<EmployeeSpecialty>): List<Employee> {
+        val result = ArrayList<Employee>()
+        val specialties = ArrayList<Specialty>()
+
+        for (i in 0 until list.size){
+            val employeeSpecialty = list[i]
+            val entityEmployee = employeeSpecialty.entityEmployee
+
+            if (employeeSpecialty.specialtyId != null && employeeSpecialty.specialtyName != null) {
+                specialties.add(Specialty(employeeSpecialty.specialtyId, employeeSpecialty.specialtyName))
+            }
+
+            if (i == list.size - 1 || entityEmployee.id != list[i + 1].entityEmployee.id){
+                result.add(Employee(entityEmployee.id, entityEmployee.firstName, entityEmployee.lastName,
+                    if (entityEmployee.birthday != null) Date(entityEmployee.birthday) else null,
+                    entityEmployee.avatarPath, null, specialties))
+                if (i < list.size - 1) {
                     specialties.clear()
                 }
             }
-            result
         }
-
-    fun getById(id: Long): Single<Employee> =
-        requestEmployeeSpecialtyById(id).map { list: List<EmployeeSpecialty> ->
-            if (list.isEmpty()) {
-                throw Exception("Not found employee by id: $id")
-            }
-            val entityEmployee = list[0].entityEmployee
-            val specialties = ArrayList<Specialty>()
-            list.forEach{
-                if (it.specialtyId != null && it.specialtyName != null) {
-                    specialties.add(Specialty(it.specialtyId, it.specialtyName))
-                }
-            }
-            Employee(entityEmployee.id, entityEmployee.firstName, entityEmployee.lastName,
-                if (entityEmployee.birthday != null) Date(entityEmployee.birthday) else null, entityEmployee.avatarPath, specialties)
-        }
+        return result
+    }
 
     @Insert
     abstract fun insertEntityEmployee(entityEmployee: EntityEmployee): Long
@@ -71,15 +65,24 @@ abstract class EmployeeDao {
     @Insert
     abstract fun insertEntityEmployeeSpecialty(entityEmployeeSpecialty: EntityEmployeeSpecialty)
 
+    // Сортировка по id упрощает обход выборки (после левых соединений выборка будет содержать дублирующиеся данные по employee)
     @Query("""Select Employees.*, Specialties.id as specialtyId, Specialties.name as specialtyName From Employees
         left join EmployeesSpecialties on Employees.id = employeeId 
         left join Specialties on Specialties.id = specialtyId
         Order by Employees.id""")
-    abstract fun requestAllEmployeeSpecialty(): Observable<List<EmployeeSpecialty>>
+    abstract fun requestAllEmployeeSpecialty(): Single<List<EmployeeSpecialty>>
 
     @Query("""Select Employees.*, Specialties.id as specialtyId, Specialties.name as specialtyName From Employees
         left join EmployeesSpecialties on Employees.id = employeeId 
         left join Specialties on Specialties.id = specialtyId
-        Where Employees.id = :id""")
-    abstract fun requestEmployeeSpecialtyById(id: Long): Single<List<EmployeeSpecialty>>
+        Where Employees.id = :employeeId""")
+    abstract fun requestEmployeeSpecialtyById(employeeId: Long): Single<List<EmployeeSpecialty>>
+
+    // Сортировка по id упрощает обход выборки (после левых соединений выборка будет содержать дублирующиеся данные по employee)
+    @Query("""Select Employees.*, Specialties.id as specialtyId, Specialties.name as specialtyName From Employees
+        left join EmployeesSpecialties on Employees.id = employeeId 
+        left join Specialties on Specialties.id = specialtyId
+        Where Specialties.id = :specialtyId
+        Order by Employees.id""")
+    abstract fun requestEmployeeSpecialtyBySpecialty(specialtyId: Long): Single<List<EmployeeSpecialty>>
 }

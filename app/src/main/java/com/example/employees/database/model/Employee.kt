@@ -1,11 +1,21 @@
 package com.example.employees.database.model
 
-import java.util.*
+import android.graphics.Bitmap
+import org.joda.time.Instant
+import org.joda.time.LocalDate
+import org.joda.time.Period
 
 data class Employee(
     val id: Long = 0,
     val firstName: String,
     val lastName: String,
-    val birthday: Date?,
+    val birthday: LocalDate?,
     val avatarPath: String?,
-    val specialties: List<Specialty>)
+    var avatar: Bitmap?,
+    val specialties: List<Specialty>) {
+
+    val age: Int?
+        get() {
+            Instant.now().to
+        }
+}

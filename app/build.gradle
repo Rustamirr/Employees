@@ -42,7 +42,7 @@ dependencies {
     // View
     implementation 'androidx.recyclerview:recyclerview:1.1.0-beta01'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.google.android.material:material:1.1.0-alpha08'
+    implementation 'com.google.android.material:material:1.1.0-alpha09'
 
     // ORM Room
     implementation 'androidx.room:room-runtime:2.1.0'
@@ -68,4 +68,7 @@ dependencies {
 
     // Navigation
     implementation 'ru.terrakok.cicerone:cicerone:5.0.0'
+
+    // Date time
+    implementation 'net.danlew:android.joda:2.10.2'
 }

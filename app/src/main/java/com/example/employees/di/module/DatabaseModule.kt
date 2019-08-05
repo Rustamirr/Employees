@@ -27,10 +27,19 @@ class DatabaseModule(private val databaseName: String) {
             .addCallback(object : RoomDatabase.Callback(){
                 override fun onCreate(db: SupportSQLiteDatabase){
                     super.onCreate(db)
+                    initDB(db)
                     createTestData(db)
                 }
             })
             .build()
+
+    private fun initDB(db: SupportSQLiteDatabase){
+        // Filter item
+        val cv = ContentValues()
+        cv.put("id", "1")
+        cv.put("name", "All")
+        db.insert("Specialties", OnConflictStrategy.ABORT, cv)
+    }
 
     private fun createTestData(db: SupportSQLiteDatabase){
         // Employees

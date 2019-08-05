@@ -1,9 +1,13 @@
 package com.example.employees.view.list_employee
 
+import android.widget.ArrayAdapter
 import androidx.lifecycle.ViewModel
 import com.example.employees.App
+import com.example.employees.database.model.Employee
+import com.example.employees.database.model.Specialty
 import com.example.employees.repository.RepositoryEmployee
 import com.example.employees.repository.RepositorySpecialty
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -17,6 +21,9 @@ class EmployeeListFragmentPresenter: ViewModel(), EmployeeListFragmentContract.P
     lateinit var repositorySpecialty: RepositorySpecialty
     @Inject
     lateinit var adapter: EmployeeAdapter
+    @Inject
+    lateinit var specialtyAdapter: ArrayAdapter<Specialty>
+
     private var view: EmployeeListFragmentContract.View? = null
     private val compositeDisposable = CompositeDisposable()
 
@@ -27,37 +34,53 @@ class EmployeeListFragmentPresenter: ViewModel(), EmployeeListFragmentContract.P
     override fun onViewCreated(view: EmployeeListFragmentContract.View) {
         this.view = view
         view.setAdapter(adapter)
+        view.setSpecialtyAdapter(specialtyAdapter)
     }
 
-    override fun onStart() {
-        subscribeToUpdates()
-    }
+    override fun onStart() { subscribeToUpdates() }
 
-    override fun onStop() {
-        unSubscribeToUpdates()
-    }
+    override fun onStop() { unSubscribeToUpdates() }
 
-    override fun onDestroyView() {
-        view = null
-    }
+    override fun onDestroyView() { view = null }
 
     private fun subscribeToUpdates() {
-        compositeDisposable.add(repositoryEmployee.getAll()
+        updateSpecialtyAdapter()
+    }
+
+    private fun unSubscribeToUpdates() {
+        compositeDisposable.clear()
+    }
+
+
+    private fun updateSpecialtyAdapter(){
+        compositeDisposable.add(repositorySpecialty.getAll()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { list ->
+                specialtyAdapter.clear()
+                specialtyAdapter.addAll(list)
+                specialtyAdapter.notifyDataSetChanged()
+                updateAdapter(getEmployeeObservable(1))
+            })
+    }
+
+    // Filter employees by specialty
+    override fun specialtySpinnerItemSelected(position: Int) {
+        updateAdapter(getEmployeeObservable(position))
+    }
+
+    private fun getEmployeeObservable(specialtySpinnerPosition: Int): Single<List<Employee>> {
+        val specialty = specialtyAdapter.getItem(specialtySpinnerPosition)!!
+        return if (specialty.servicePropertyAll) repositoryEmployee.getAll() else repositoryEmployee.getBySpecialty(specialty)
+    }
+
+    private fun updateAdapter(observable: Single<List<Employee>>){
+        compositeDisposable.add(observable
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { list ->
                 adapter.setList(list)
                 adapter.notifyDataSetChanged()
             })
-        compositeDisposable.add(repositorySpecialty.getAll()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { list ->
-
-            })
-    }
-
-    private fun unSubscribeToUpdates() {
-        compositeDisposable.clear()
     }
 }
