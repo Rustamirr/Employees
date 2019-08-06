@@ -27,19 +27,10 @@ class DatabaseModule(private val databaseName: String) {
             .addCallback(object : RoomDatabase.Callback(){
                 override fun onCreate(db: SupportSQLiteDatabase){
                     super.onCreate(db)
-                    initDB(db)
                     createTestData(db)
                 }
             })
             .build()
-
-    private fun initDB(db: SupportSQLiteDatabase){
-        // Filter item
-        val cv = ContentValues()
-        cv.put("id", "1")
-        cv.put("name", "All")
-        db.insert("Specialties", OnConflictStrategy.ABORT, cv)
-    }
 
     private fun createTestData(db: SupportSQLiteDatabase){
         // Employees
@@ -55,10 +46,12 @@ class DatabaseModule(private val databaseName: String) {
         cv.put("birthday", 827870400000)
         val employeeId2 = db.insert("Employees", OnConflictStrategy.ABORT, cv)
 
-        cv.clear()
-        cv.put("firstName", "Sara")
-        cv.put("lastName", "Connar")
-        db.insert("Employees", OnConflictStrategy.ABORT, cv)
+        for (i in 0 .. 20) {
+            cv.clear()
+            cv.put("firstName", "Employee $i")
+            cv.put("lastName", "Last name $i")
+            db.insert("Employees", OnConflictStrategy.ABORT, cv)
+        }
 
         // Specialties
         cv.clear()

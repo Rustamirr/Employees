@@ -40,7 +40,7 @@ class EmployeeListFragment: Fragment(), EmployeeListFragmentContract.View {
         unbinder = ButterKnife.bind(this, view)
 
         specialtySpinner.onItemSelectedListener = (object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 presenter.specialtySpinnerItemSelected(position)
             }
             override fun onNothingSelected(parent: AdapterView<*>) {}
