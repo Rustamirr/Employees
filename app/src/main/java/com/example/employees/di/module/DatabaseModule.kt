@@ -46,11 +46,13 @@ class DatabaseModule(private val databaseName: String) {
         val cv = ContentValues()
         cv.put("firstName", "Ivan")
         cv.put("lastName", "Ivanov")
+        cv.put("birthday", 512251200000)
         val employeeId1 = db.insert("Employees", OnConflictStrategy.ABORT, cv)
 
         cv.clear()
         cv.put("firstName", "Alex")
         cv.put("lastName", "Alexandrov")
+        cv.put("birthday", 827870400000)
         val employeeId2 = db.insert("Employees", OnConflictStrategy.ABORT, cv)
 
         cv.clear()

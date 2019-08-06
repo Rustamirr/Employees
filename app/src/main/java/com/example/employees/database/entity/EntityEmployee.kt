@@ -4,6 +4,8 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.example.employees.database.model.Employee
+import org.joda.time.Instant
+import org.joda.time.LocalDate
 import java.util.*
 
 @Entity(tableName = "Employees")
@@ -16,5 +18,7 @@ data class EntityEmployee(
     val avatarPath: String?){
 
     @Ignore
-    constructor(employee: Employee): this(employee.id, employee.firstName, employee.lastName, employee.birthday?.time, employee.avatarPath)
+    constructor(employee: Employee): this(employee.id, employee.firstName, employee.lastName,
+        if (employee.birthday != null) Instant(employee.birthday).millis else null,
+        employee.avatarPath)
 }

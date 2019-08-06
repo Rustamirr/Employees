@@ -46,6 +46,7 @@ class EmployeeAdapter: RecyclerView.Adapter<EmployeeAdapter.ViewHolder>() {
         fun bind(employee: Employee) {
             tvFirstName.text = employee.firstName
             tvLastName.text = employee.lastName
+            tvAge.text = employee.age?.toString() ?: ""
         }
     }
 

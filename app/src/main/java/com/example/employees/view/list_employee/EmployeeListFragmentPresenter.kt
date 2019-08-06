@@ -43,14 +43,9 @@ class EmployeeListFragmentPresenter: ViewModel(), EmployeeListFragmentContract.P
 
     override fun onDestroyView() { view = null }
 
-    private fun subscribeToUpdates() {
-        updateSpecialtyAdapter()
-    }
+    private fun subscribeToUpdates() { updateSpecialtyAdapter() }
 
-    private fun unSubscribeToUpdates() {
-        compositeDisposable.clear()
-    }
-
+    private fun unSubscribeToUpdates() { compositeDisposable.clear() }
 
     private fun updateSpecialtyAdapter(){
         compositeDisposable.add(repositorySpecialty.getAll()

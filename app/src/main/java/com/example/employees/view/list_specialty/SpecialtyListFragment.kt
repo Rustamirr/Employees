@@ -1,17 +1,44 @@
 package com.example.employees.view.list_specialty
 
 import android.os.Bundle
+import android.view.View
+import android.widget.ArrayAdapter
 import androidx.fragment.app.ListFragment
+import androidx.lifecycle.ViewModelProviders
+import com.example.employees.database.model.Specialty
 
-class SpecialtyListFragment: ListFragment() {
-    //lateinit var presenter:
+class SpecialtyListFragment: ListFragment(), SpecialtyListFragmentContract.View {
     companion object {
         fun newInstance() = SpecialtyListFragment()
     }
+    private lateinit var presenter: SpecialtyListFragmentContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        presenter = ViewModelProviders.of(this).get(SpecialtyListFragmentPresenter::class.java)
+    }
 
-        //val adapter = ArrayAdapter(App.instance, android.R.layout.simple_list_item_1, ))
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        presenter.onViewCreated(this)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        presenter.onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        presenter.onStop()
+    }
+
+    override fun onDestroyView() {
+        presenter.onDestroyView()
+        super.onDestroyView()
+    }
+
+    override fun setAdapter(adapter: ArrayAdapter<Specialty>) {
+        listView.adapter = adapter
     }
 }

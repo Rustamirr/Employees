@@ -1,9 +1,8 @@
 package com.example.employees.database.model
 
 import android.graphics.Bitmap
-import org.joda.time.Instant
 import org.joda.time.LocalDate
-import org.joda.time.Period
+import org.joda.time.Years
 
 data class Employee(
     val id: Long = 0,
@@ -15,7 +14,5 @@ data class Employee(
     val specialties: List<Specialty>) {
 
     val age: Int?
-        get() {
-            Instant.now().to
-        }
+        get() = if (birthday != null) Years.yearsBetween(birthday, LocalDate.now()).years else null
 }

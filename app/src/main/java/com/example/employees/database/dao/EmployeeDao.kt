@@ -9,6 +9,7 @@ import com.example.employees.database.model.Specialty
 import com.example.employees.database.request.EmployeeSpecialty
 import io.reactivex.Observable
 import io.reactivex.Single
+import org.joda.time.LocalDate
 import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
@@ -46,7 +47,7 @@ abstract class EmployeeDao {
 
             if (i == list.size - 1 || entityEmployee.id != list[i + 1].entityEmployee.id){
                 result.add(Employee(entityEmployee.id, entityEmployee.firstName, entityEmployee.lastName,
-                    if (entityEmployee.birthday != null) Date(entityEmployee.birthday) else null,
+                    if (entityEmployee.birthday != null) LocalDate(entityEmployee.birthday) else null,
                     entityEmployee.avatarPath, null, specialties))
                 if (i < list.size - 1) {
                     specialties.clear()
