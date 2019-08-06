@@ -23,16 +23,6 @@ class SpecialtyListFragment: ListFragment(), SpecialtyListFragmentContract.View 
         presenter.onViewCreated(this)
     }
 
-    override fun onStart() {
-        super.onStart()
-        presenter.onStart()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        presenter.onStop()
-    }
-
     override fun onDestroyView() {
         presenter.onDestroyView()
         super.onDestroyView()

@@ -10,8 +10,6 @@ interface EmployeeListFragmentContract {
     }
     interface Presenter{
         fun onViewCreated(view: View)
-        fun onStart()
-        fun onStop()
         fun onDestroyView()
         fun specialtySpinnerItemSelected(position: Int)
     }

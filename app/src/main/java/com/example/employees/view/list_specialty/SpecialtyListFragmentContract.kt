@@ -9,8 +9,6 @@ interface SpecialtyListFragmentContract {
     }
     interface Presenter {
         fun onViewCreated(view: View)
-        fun onStart()
-        fun onStop()
         fun onDestroyView()
     }
 }

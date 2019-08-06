@@ -9,5 +9,5 @@ class RepositorySpecialtyImpl(
     private val specialtyDao: SpecialtyDao): RepositorySpecialty {
 
     override fun insert(t: Specialty) { specialtyDao.insert(t) }
-    override fun getAll(): Single<List<Specialty>> = specialtyDao.getAll()
+    override fun getAll(): Observable<List<Specialty>> = specialtyDao.getAll()
 }

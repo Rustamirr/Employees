@@ -22,17 +22,16 @@ class SpecialtyListFragmentPresenter: ViewModel(), SpecialtyListFragmentContract
 
     init {
         App.instance.injector.getMainActivityComponent().inject(this)
+        subscribeToUpdates()
     }
 
     override fun onViewCreated(view: SpecialtyListFragmentContract.View) {
         this.view = view
     }
 
-    override fun onStart() { subscribeToUpdates() }
-
-    override fun onStop() { unSubscribeToUpdates() }
-
     override fun onDestroyView() { view = null }
+
+    override fun onCleared() { unSubscribeToUpdates() }
 
     private fun subscribeToUpdates(){
         disposable = repositorySpecialty.getAll()

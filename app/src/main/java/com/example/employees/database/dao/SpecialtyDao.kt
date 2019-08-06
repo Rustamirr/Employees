@@ -15,7 +15,7 @@ abstract class SpecialtyDao {
         insertEntitySpecialty(EntitySpecialty(specialty))
     }
 
-    fun getAll(): Single<List<Specialty>> =
+    fun getAll(): Observable<List<Specialty>> =
         getAllEntitySpecialty().map { entitySpecialties ->
             entitySpecialties.map { Specialty(it.id, it.name)}
         }
@@ -24,5 +24,5 @@ abstract class SpecialtyDao {
     abstract fun insertEntitySpecialty(entitySpecialty: EntitySpecialty)
 
     @Query("Select * From Specialties")
-    abstract fun getAllEntitySpecialty(): Single<List<EntitySpecialty>>
+    abstract fun getAllEntitySpecialty(): Observable<List<EntitySpecialty>>
 }

@@ -7,12 +7,14 @@ import io.reactivex.Single
 
 interface BaseRepository<T> {
     fun insert(t: T)
-    fun getAll(): Single<List<T>>
 }
 
 interface RepositoryEmployee: BaseRepository<Employee> {
+    fun getAll(): Single<List<Employee>>
     fun getById(id: Long): Single<Employee>
     fun getBySpecialty(specialty: Specialty): Single<List<Employee>>
 }
 
-interface RepositorySpecialty: BaseRepository<Specialty>
+interface RepositorySpecialty: BaseRepository<Specialty> {
+    fun getAll(): Observable<List<Specialty>>
+}

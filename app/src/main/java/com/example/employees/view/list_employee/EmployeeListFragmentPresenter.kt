@@ -7,6 +7,7 @@ import com.example.employees.database.model.Employee
 import com.example.employees.database.model.Specialty
 import com.example.employees.repository.RepositoryEmployee
 import com.example.employees.repository.RepositorySpecialty
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -29,6 +30,7 @@ class EmployeeListFragmentPresenter: ViewModel(), EmployeeListFragmentContract.P
 
     init {
         App.instance.injector.getMainActivityComponent().inject(this)
+        subscribeToUpdates()
     }
 
     override fun onViewCreated(view: EmployeeListFragmentContract.View) {
@@ -37,11 +39,12 @@ class EmployeeListFragmentPresenter: ViewModel(), EmployeeListFragmentContract.P
         view.setSpecialtyAdapter(specialtyAdapter)
     }
 
-    override fun onStart() { subscribeToUpdates() }
-
-    override fun onStop() { unSubscribeToUpdates() }
-
     override fun onDestroyView() { view = null }
+
+    override fun onCleared() {
+        super.onCleared()
+        unSubscribeToUpdates()
+    }
 
     private fun subscribeToUpdates() { updateSpecialtyAdapter() }
 
