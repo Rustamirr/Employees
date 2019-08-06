@@ -29,6 +29,6 @@ class SpecialtyListFragment: ListFragment(), SpecialtyListFragmentContract.View 
     }
 
     override fun setAdapter(adapter: ArrayAdapter<Specialty>) {
-        listView.adapter = adapter
+        listAdapter = adapter
     }
 }

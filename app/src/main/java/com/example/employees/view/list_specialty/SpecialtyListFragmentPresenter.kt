@@ -27,6 +27,7 @@ class SpecialtyListFragmentPresenter: ViewModel(), SpecialtyListFragmentContract
 
     override fun onViewCreated(view: SpecialtyListFragmentContract.View) {
         this.view = view
+        view.setAdapter(adapter)
     }
 
     override fun onDestroyView() { view = null }
