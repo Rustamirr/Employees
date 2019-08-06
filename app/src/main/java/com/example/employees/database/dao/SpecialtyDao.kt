@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import com.example.employees.database.entity.EntitySpecialty
 import com.example.employees.database.model.Specialty
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 
@@ -15,7 +16,7 @@ abstract class SpecialtyDao {
         insertEntitySpecialty(EntitySpecialty(specialty))
     }
 
-    fun getAll(): Observable<List<Specialty>> =
+    fun getAll(): Maybe<List<Specialty>> =
         getAllEntitySpecialty().map { entitySpecialties ->
             entitySpecialties.map { Specialty(it.id, it.name)}
         }
@@ -24,5 +25,5 @@ abstract class SpecialtyDao {
     abstract fun insertEntitySpecialty(entitySpecialty: EntitySpecialty)
 
     @Query("Select * From Specialties")
-    abstract fun getAllEntitySpecialty(): Observable<List<EntitySpecialty>>
+    abstract fun getAllEntitySpecialty(): Maybe<List<EntitySpecialty>>
 }

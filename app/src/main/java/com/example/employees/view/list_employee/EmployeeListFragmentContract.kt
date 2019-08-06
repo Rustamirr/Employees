@@ -12,5 +12,6 @@ interface EmployeeListFragmentContract {
         fun onViewCreated(view: View)
         fun onDestroyView()
         fun specialtySpinnerItemSelected(position: Int)
+        fun download()
     }
 }

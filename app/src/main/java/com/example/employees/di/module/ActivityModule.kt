@@ -21,5 +21,5 @@ class ActivityModule {
 
     @Provides
     fun provideArrayAdapter(context: Context): ArrayAdapter<Specialty> =
-        ArrayAdapter(context, android.R.layout.simple_spinner_item, ArrayList<Specialty>())
+        ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, ArrayList<Specialty>())
 }

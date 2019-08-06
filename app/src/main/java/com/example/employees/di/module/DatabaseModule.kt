@@ -15,7 +15,6 @@ import com.example.employees.repository.RepositorySpecialty
 import com.example.employees.repository.RepositorySpecialtyImpl
 import dagger.Module
 import dagger.Provides
-import java.util.*
 import javax.inject.Singleton
 
 @Module
@@ -27,7 +26,7 @@ class DatabaseModule(private val databaseName: String) {
             .addCallback(object : RoomDatabase.Callback(){
                 override fun onCreate(db: SupportSQLiteDatabase){
                     super.onCreate(db)
-                    createTestData(db)
+                    //createTestData(db)
                 }
             })
             .build()

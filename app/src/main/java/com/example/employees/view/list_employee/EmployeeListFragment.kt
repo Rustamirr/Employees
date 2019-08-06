@@ -1,9 +1,7 @@
 package com.example.employees.view.list_employee
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
@@ -59,6 +57,20 @@ class EmployeeListFragment: Fragment(), EmployeeListFragmentContract.View {
         presenter.onDestroyView()
         unbinder.unbind()
         super.onDestroyView()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.employees_fragment, menu);
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+             R.id.menu_employees_fragment_download -> {
+                presenter.download()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun setAdapter(adapter: EmployeeAdapter) {

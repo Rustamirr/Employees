@@ -16,6 +16,7 @@ class App: Application() {
         super.onCreate()
         instance = this
         injector = Injector(this)
+
         JodaTimeAndroid.init(this)
     }
 }
