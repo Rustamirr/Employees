@@ -6,7 +6,7 @@ import io.reactivex.Maybe
 
 interface BaseRepository<T> {
     fun insert(t: T)
-    fun getAll(): Maybe<List<T>>
+     fun getAll(): Maybe<List<T>>
 }
 
 interface RepositoryEmployee: BaseRepository<Employee> {

@@ -6,20 +6,13 @@ import com.example.employees.App
 import com.example.employees.database.model.Employee
 import com.example.employees.database.model.Specialty
 import com.example.employees.interactor.NetworkInteractor
-import com.example.employees.network.NetworkApi
-import com.example.employees.network.NetworkResponse
 import com.example.employees.repository.RepositoryEmployee
 import com.example.employees.repository.RepositorySpecialty
 import io.reactivex.Maybe
 import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Consumer
-import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
-import java.lang.Exception
 import javax.inject.Inject
 
 class EmployeeListFragmentPresenter: ViewModel(), EmployeeListFragmentContract.Presenter {
@@ -103,17 +96,19 @@ class EmployeeListFragmentPresenter: ViewModel(), EmployeeListFragmentContract.P
     }
 
     override fun download() {
-        networkInteractor.makeRequest()
-        /*compositeDisposable.add(repositoryEmployee.getCount()
-            .filter { it == 0L }
-            .flatMap { networkApi.getEmployees() }
+        //compositeDisposable.add(repositoryEmployee.getCount()
+         //   .filter { it == 0L }
+          //  .flatMap { networkInteractor.loadEmployees() }
+        compositeDisposable.add(networkInteractor.loadEmployees()
+            .flatMapObservable { Observable.fromIterable(it.response) }
+            .doOnNext {
+                repositoryEmployee.insert(networkInteractor.networkEmployeeToEmployee(it))
+            }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe{
-                it.response.forEach {
-                    val employee = Employee(0, it.firstName, it.lastName, it.birthday, it.av)
-                    repositoryEmployee.insert(employee)
-                }
-            })*/
+            .subscribe(
+                { view?.showToast("Completed successful") },
+                { view?.showToast("Completed with errors: ${it.message}") })
+        )
     }
 }

@@ -58,13 +58,13 @@ abstract class EmployeeDao {
         return result
     }
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertEntityEmployee(entityEmployee: EntityEmployee): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertEntitySpecialty(entitySpecialty: EntitySpecialty)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertEntityEmployeeSpecialty(entityEmployeeSpecialty: EntityEmployeeSpecialty)
 
     // Сортировка по id упрощает обход выборки (после левых соединений выборка будет содержать дублирующиеся данные по employee)

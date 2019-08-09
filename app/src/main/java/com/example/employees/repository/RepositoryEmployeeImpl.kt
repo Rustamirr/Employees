@@ -11,8 +11,12 @@ class RepositoryEmployeeImpl(
     private val employeeDao: EmployeeDao): RepositoryEmployee {
 
     override fun insert(t: Employee) { employeeDao.insert(t) }
+
     override fun getCount(): Maybe<Long> = employeeDao.getCount()
+
     override fun getAll(): Maybe<List<Employee>> = employeeDao.getAll()
+
     override fun getById(id: Long): Maybe<Employee> = employeeDao.getById(id)
+
     override fun getBySpecialty(specialty: Specialty): Maybe<List<Employee>> = employeeDao.getBySpecialty(specialty)
 }

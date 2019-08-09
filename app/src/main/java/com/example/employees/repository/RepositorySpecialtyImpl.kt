@@ -10,5 +10,6 @@ class RepositorySpecialtyImpl(
     private val specialtyDao: SpecialtyDao): RepositorySpecialty {
 
     override fun insert(t: Specialty) { specialtyDao.insert(t) }
+
     override fun getAll(): Maybe<List<Specialty>> = specialtyDao.getAll()
 }

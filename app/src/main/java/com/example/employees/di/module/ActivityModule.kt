@@ -2,6 +2,7 @@ package com.example.employees.di.module
 
 import android.content.Context
 import android.widget.ArrayAdapter
+import com.example.employees.R
 import com.example.employees.database.model.Specialty
 import com.example.employees.di.ActivityScope
 import com.example.employees.view.list_employee.EmployeeAdapter
@@ -21,5 +22,5 @@ class ActivityModule {
 
     @Provides
     fun provideArrayAdapter(context: Context): ArrayAdapter<Specialty> =
-        ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, ArrayList<Specialty>())
+        ArrayAdapter(context, R.layout.specialty_list_fragment_item, ArrayList<Specialty>())
 }

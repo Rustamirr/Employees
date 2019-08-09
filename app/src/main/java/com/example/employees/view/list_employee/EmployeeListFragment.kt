@@ -13,6 +13,7 @@ import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.example.employees.R
 import android.widget.Spinner
+import android.widget.Toast
 import com.example.employees.database.model.Specialty
 
 class EmployeeListFragment: Fragment(), EmployeeListFragmentContract.View {
@@ -30,6 +31,7 @@ class EmployeeListFragment: Fragment(), EmployeeListFragmentContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
         presenter = ViewModelProviders.of(this).get(EmployeeListFragmentPresenter::class.java)
     }
 
@@ -79,5 +81,9 @@ class EmployeeListFragment: Fragment(), EmployeeListFragmentContract.View {
 
     override fun setSpecialtyAdapter(adapter: ArrayAdapter<Specialty>) {
         specialtySpinner.adapter = adapter
+    }
+
+    override fun showToast(text: String) {
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
     }
 }

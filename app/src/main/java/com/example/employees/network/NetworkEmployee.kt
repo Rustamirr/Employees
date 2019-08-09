@@ -11,7 +11,7 @@ data class NetworkEmployee(
 
     val birthday: String,
 
-    @SerializedName("avatar_url")
+    @SerializedName("avatr_url")
     val avatarUrl: String,
 
     @SerializedName("specialty")
