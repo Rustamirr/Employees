@@ -2,8 +2,6 @@ package com.example.employees.repository
 
 import com.example.employees.database.dao.SpecialtyDao
 import com.example.employees.database.model.Specialty
-import io.reactivex.Maybe
-import io.reactivex.Observable
 import io.reactivex.Single
 
 class RepositorySpecialtyImpl(
@@ -11,5 +9,5 @@ class RepositorySpecialtyImpl(
 
     override fun insert(t: Specialty) { specialtyDao.insert(t) }
 
-    override fun getAll(): Maybe<List<Specialty>> = specialtyDao.getAll()
+    override fun getAll(): Single<List<Specialty>> = specialtyDao.getAll()
 }

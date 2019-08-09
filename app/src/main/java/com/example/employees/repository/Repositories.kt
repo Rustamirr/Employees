@@ -2,17 +2,17 @@ package com.example.employees.repository
 
 import com.example.employees.database.model.Employee
 import com.example.employees.database.model.Specialty
-import io.reactivex.Maybe
+import io.reactivex.Single
 
 interface BaseRepository<T> {
     fun insert(t: T)
-     fun getAll(): Maybe<List<T>>
+    fun getAll(): Single<List<T>>
 }
 
 interface RepositoryEmployee: BaseRepository<Employee> {
-    fun getCount(): Maybe<Long>
-    fun getById(id: Long): Maybe<Employee>
-    fun getBySpecialty(specialty: Specialty): Maybe<List<Employee>>
+    fun getCount(): Single<Long>
+    fun getById(id: Long): Single<Employee>
+    fun getBySpecialty(specialty: Specialty): Single<List<Employee>>
 }
 
 interface RepositorySpecialty: BaseRepository<Specialty>

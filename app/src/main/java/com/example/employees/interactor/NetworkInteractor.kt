@@ -1,4 +1,4 @@
-package com.example.employees.interactor
+/*package com.example.employees.interactor
 
 import com.example.employees.database.model.Employee
 import com.example.employees.database.model.Specialty
@@ -42,5 +42,5 @@ class NetworkInteractor(
         return LocalDate(format.parse(dateStr))
     }
 
-    private fun networkSpecialtyToSpecialty(list: List<NetworkSpecialty>): List<Specialty> = list.map { Specialty(it.id, it.name) }
-}
+    private fun networkSpecialtyToSpecialty(list: List<NetworkSpecialty>): Set<Specialty> = list.map { Specialty(it.id, it.name) }
+}*/

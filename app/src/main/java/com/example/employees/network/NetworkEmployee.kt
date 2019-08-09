@@ -15,5 +15,5 @@ data class NetworkEmployee(
     val avatarUrl: String,
 
     @SerializedName("specialty")
-    val specialties: List<NetworkSpecialty>
+    val specialties: Set<NetworkSpecialty>
 )
