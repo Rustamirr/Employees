@@ -69,6 +69,6 @@ dependencies {
     // Navigation
     implementation 'ru.terrakok.cicerone:cicerone:5.0.0'
 
-    // Date time
+    // Joda time for support api 14, java time support api 26
     implementation 'net.danlew:android.joda:2.10.2'
 }

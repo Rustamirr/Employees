@@ -16,6 +16,5 @@ data class EntityEmployee(
 
     @Ignore
     constructor(employee: Employee): this(employee.id, employee.firstName, employee.lastName,
-        if (employee.birthday != null) employee.birthday.toDate().time else null,
-        employee.avatarPath)
+        employee.birthday?.toDate()?.time, employee.avatarPath)
 }
