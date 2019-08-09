@@ -39,7 +39,7 @@ class MainActivityPresenter: ViewModel(), MainActivityContract.Presenter {
             when (menuItem.itemId) {
                 R.id.bottom_bar_employees -> showScreen(EmployeeListScreen())
                 R.id.bottom_bar_specialties -> showScreen(SpecialtyListScreen())
-                else -> throw IllegalArgumentException("Unknown bottom bar menu item id")
+                else -> throw IllegalArgumentException("Unknown bottom bar item id")
             }
         }
     }

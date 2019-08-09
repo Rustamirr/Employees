@@ -5,15 +5,16 @@ import androidx.lifecycle.ViewModel
 import com.example.employees.App
 import com.example.employees.database.model.Employee
 import com.example.employees.database.model.Specialty
-import com.example.employees.interactor.NetworkInteractor
 import com.example.employees.repository.RepositoryEmployee
 import com.example.employees.repository.RepositorySpecialty
-import io.reactivex.Maybe
-import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import ru.terrakok.cicerone.Cicerone
+import ru.terrakok.cicerone.Router
 import javax.inject.Inject
+import com.example.employees.utils.EmployeeScreen
 
 class EmployeeListFragmentPresenter: ViewModel(), EmployeeListFragmentContract.Presenter {
     @Inject
@@ -25,14 +26,17 @@ class EmployeeListFragmentPresenter: ViewModel(), EmployeeListFragmentContract.P
     @Inject
     lateinit var specialtyAdapter: ArrayAdapter<Specialty>
     @Inject
-    lateinit var networkInteractor: NetworkInteractor
+    lateinit var cicerone: Cicerone<Router>
+    //@Inject
+    //lateinit var networkInteractor: NetworkInteractor
 
     private var view: EmployeeListFragmentContract.View? = null
     private val compositeDisposable = CompositeDisposable()
-    private var specialtySpinnerPosition: Int = -1
+    private var specialtySpinnerPosition: Int = 0
 
     init {
         App.instance.injector.getMainActivityComponent().inject(this)
+        adapter.onCreate(this)
         subscribeToUpdates()
     }
 
@@ -42,9 +46,7 @@ class EmployeeListFragmentPresenter: ViewModel(), EmployeeListFragmentContract.P
         view.setSpecialtyAdapter(specialtyAdapter)
     }
 
-    override fun onDestroyView() {
-        view = null
-    }
+    override fun onDestroyView() { view = null }
 
     override fun onCleared() {
         super.onCleared()
@@ -59,13 +61,9 @@ class EmployeeListFragmentPresenter: ViewModel(), EmployeeListFragmentContract.P
         }
     }
 
-    private fun subscribeToUpdates() {
-        updateSpecialtyAdapter()
-    }
+    private fun subscribeToUpdates() { updateSpecialtyAdapter() }
 
-    private fun unSubscribeToUpdates() {
-        compositeDisposable.clear()
-    }
+    private fun unSubscribeToUpdates() { compositeDisposable.clear() }
 
     private fun updateSpecialtyAdapter() {
         compositeDisposable.add(repositorySpecialty.getAll()
@@ -80,12 +78,12 @@ class EmployeeListFragmentPresenter: ViewModel(), EmployeeListFragmentContract.P
             })
     }
 
-    private fun getEmployeeObservable(specialtySpinnerPosition: Int): Maybe<List<Employee>> {
+    private fun getEmployeeObservable(specialtySpinnerPosition: Int): Single<List<Employee>> {
         val specialty = specialtyAdapter.getItem(specialtySpinnerPosition)!!
         return if (specialty.name == "All") repositoryEmployee.getAll() else repositoryEmployee.getBySpecialty(specialty)
     }
 
-    private fun updateAdapter(observable: Maybe<List<Employee>>) {
+    private fun updateAdapter(observable: Single<List<Employee>>) {
         compositeDisposable.add(observable
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -95,11 +93,15 @@ class EmployeeListFragmentPresenter: ViewModel(), EmployeeListFragmentContract.P
             })
     }
 
+    override fun onItemClick(employee: Employee) {
+        cicerone.router.navigateTo(EmployeeScreen(employee.id))
+    }
+
     override fun download() {
         //compositeDisposable.add(repositoryEmployee.getCount()
          //   .filter { it == 0L }
           //  .flatMap { networkInteractor.loadEmployees() }
-        compositeDisposable.add(networkInteractor.loadEmployees()
+        /*compositeDisposable.add(networkInteractor.loadEmployees()
             .flatMapObservable { Observable.fromIterable(it.response) }
             .doOnNext {
                 repositoryEmployee.insert(networkInteractor.networkEmployeeToEmployee(it))
@@ -109,6 +111,6 @@ class EmployeeListFragmentPresenter: ViewModel(), EmployeeListFragmentContract.P
             .subscribe(
                 { view?.showToast("Completed successful") },
                 { view?.showToast("Completed with errors: ${it.message}") })
-        )
+        )*/
     }
 }

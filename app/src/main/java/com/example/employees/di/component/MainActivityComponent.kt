@@ -15,5 +15,5 @@ interface MainActivityComponent {
     fun getCicerone(): Cicerone<Router>
     fun inject(employeeListFragmentPresenter: EmployeeListFragmentPresenter)
     fun inject(specialtyListFragmentPresenter: SpecialtyListFragmentPresenter)
-    //fun inject(employeeFragmentPresenter: EmployeeFragmentPresenter)
+    fun inject(employeeFragmentPresenter: EmployeeFragmentPresenter)
 }

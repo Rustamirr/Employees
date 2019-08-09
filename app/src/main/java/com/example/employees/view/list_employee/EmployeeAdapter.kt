@@ -13,6 +13,11 @@ import com.example.employees.database.model.Employee
 
 class EmployeeAdapter: RecyclerView.Adapter<EmployeeAdapter.ViewHolder>() {
     private var list: List<Employee>? = null
+    lateinit var presenter: EmployeeListFragmentContract.Presenter
+
+    fun onCreate(presenter: EmployeeListFragmentContract.Presenter){
+        this.presenter = presenter
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -26,7 +31,7 @@ class EmployeeAdapter: RecyclerView.Adapter<EmployeeAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int = list?.size ?: 0
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
         @BindView(R.id.employee_list_fragment_item_avatar)
         lateinit var ivAvatar: ImageView
 
@@ -41,12 +46,23 @@ class EmployeeAdapter: RecyclerView.Adapter<EmployeeAdapter.ViewHolder>() {
 
         init {
             ButterKnife.bind(this, view)
+            view.setOnClickListener(this)
         }
 
         fun bind(employee: Employee) {
             tvFirstName.text = employee.firstName
             tvLastName.text = employee.lastName
             tvAge.text = employee.age?.toString() ?: ""
+
+            if (employee.avatar != null){
+                ivAvatar.setImageBitmap(employee.avatar)
+            } else {
+                ivAvatar.setImageResource(android.R.drawable.ic_menu_help)
+            }
+        }
+
+        override fun onClick(v: View?) {
+            presenter.onItemClick(list!![adapterPosition])
         }
     }
 
