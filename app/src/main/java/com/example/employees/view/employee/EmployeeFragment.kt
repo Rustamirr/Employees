@@ -50,8 +50,8 @@ class EmployeeFragment: Fragment(), EmployeeFragmentContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter = ViewModelProviders.of(this).get(EmployeeFragmentPresenter::class.java)
-        presenter.onCreate(arguments?.getLong(ID))
+        presenter = ViewModelProviders.of(this,
+            EmployeeFragmentPresenter.ModelFactory(arguments?.getLong(ID))).get(EmployeeFragmentPresenter::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

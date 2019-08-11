@@ -2,6 +2,7 @@ package com.example.employees.view.employee
 
 import android.graphics.BitmapFactory
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.example.employees.App
 import com.example.employees.R
 import com.example.employees.database.model.Employee
@@ -13,7 +14,7 @@ import io.reactivex.schedulers.Schedulers
 import org.joda.time.format.DateTimeFormat
 import javax.inject.Inject
 
-class EmployeeFragmentPresenter: ViewModel(), EmployeeFragmentContract.Presenter {
+class EmployeeFragmentPresenter(employeeId: Long?): ViewModel(), EmployeeFragmentContract.Presenter {
     @Inject
     lateinit var repositoryEmployee: RepositoryEmployee
 
@@ -26,10 +27,9 @@ class EmployeeFragmentPresenter: ViewModel(), EmployeeFragmentContract.Presenter
 
     init {
         App.instance.injector.getMainActivityComponent().inject(this)
-    }
-
-    override fun onCreate(employeeId: Long?) {
-        if (employeeId != null) subscribeToUpdate(employeeId)
+        if (employeeId != null) {
+            subscribeToUpdate(employeeId)
+        }
     }
 
     override fun onViewCreated(view: EmployeeFragmentContract.View) {
@@ -62,12 +62,21 @@ class EmployeeFragmentPresenter: ViewModel(), EmployeeFragmentContract.Presenter
 
     private fun updateUI(){
         if (view != null && employee != null) {
-            view!!.setAvatar(employee!!.avatar ?: defaultBitmap)
-            view!!.setFirstName(employee!!.firstName)
-            view!!.setLastName(employee!!.lastName)
-            view!!.setBirthday(if (employee!!.birthday != null) dateTimeFormatter.print(employee!!.birthday) else "-")
-            view!!.setAge(if (employee!!.age != null) employee!!.age.toString() + " years" else "-")
-            view!!.setSpecialties(employee!!.specialties.toString().ifEmpty { "-" })
+            val view = view!!
+            val employee = employee!!
+
+            view.setAvatar(employee.avatar ?: defaultBitmap)
+            view.setFirstName(employee.firstName)
+            view.setLastName(employee.lastName)
+            view.setBirthday(if (employee.birthday != null) dateTimeFormatter.print(employee.birthday) else "-")
+            view.setAge(if (employee.age != null) employee.age.toString() + " years" else "-")
+            view.setSpecialties(if (!employee.specialties.isEmpty()) employee.specialties.toString() else "-")
+        }
+    }
+
+    class ModelFactory(private val employeeId: Long?): ViewModelProvider.NewInstanceFactory() {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            return EmployeeFragmentPresenter(employeeId) as T
         }
     }
 }

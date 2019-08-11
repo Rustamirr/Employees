@@ -12,7 +12,6 @@ interface EmployeeFragmentContract {
         fun setSpecialties(specialties: String)
     }
     interface Presenter {
-        fun onCreate(employeeId: Long?)
         fun onViewCreated(view: View)
         fun onDestroyView()
     }
