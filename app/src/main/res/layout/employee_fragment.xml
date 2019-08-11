@@ -21,28 +21,29 @@
             android:id="@+id/employee_fragment_first_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             tools:text="Иван" android:layout_marginTop="24dp"
             app:layout_constraintTop_toBottomOf="@+id/employee_fragment_avatar" android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"/>
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp" android:textStyle="bold"/>
 
     <TextView
             android:id="@+id/employee_fragment_last_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             tools:text="Иванов"
             app:layout_constraintStart_toEndOf="@+id/employee_fragment_first_name"
             android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
             app:layout_constraintTop_toTopOf="@+id/employee_fragment_first_name"
             app:layout_constraintBottom_toBottomOf="@+id/employee_fragment_first_name"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp" android:layout_marginRight="8dp"/>
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
+            android:textStyle="bold"/>
 
     <TextView
             android:id="@+id/employee_fragment_birthday"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
             tools:text="22.11.1987"
             app:layout_constraintStart_toEndOf="@+id/textBirthday"
             android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
@@ -54,7 +55,7 @@
             android:id="@+id/employee_fragment_age"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
             tools:text="33 years"
             app:layout_constraintStart_toEndOf="@+id/textAge" android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
@@ -66,7 +67,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/specialties"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
@@ -77,7 +78,7 @@
             android:id="@+id/employee_fragment_specialties"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
             tools:text="Spec 1\nSpec 2\nSpec 3\nSpec 4"
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/textSpecialties" android:layout_marginStart="8dp"
@@ -91,7 +92,7 @@
             android:id="@+id/textBirthday" app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp" android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/employee_fragment_first_name"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
     <TextView
             android:text="@string/age"
             android:layout_width="wrap_content"
@@ -99,7 +100,7 @@
             android:id="@+id/textAge" android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/textBirthday" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

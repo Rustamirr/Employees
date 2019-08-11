@@ -26,12 +26,12 @@ abstract class EmployeeDao {
 
     fun insertAll(employees: List<Employee>): Completable = Completable.fromAction { employees.forEach { insert(it) } }
 
-    fun getAll(): Single<List<Employee>> = requestAllEmployeeSpecialty().map { employeeSpecialtyToEmployee(it) }
+    fun getAll(): Maybe<List<Employee>> = requestAllEmployeeSpecialty().map { employeeSpecialtyToEmployee(it) }
 
-    fun getBySpecialty(specialty: Specialty): Single<List<Employee>> =
+    fun getBySpecialty(specialty: Specialty): Maybe<List<Employee>> =
         requestEmployeeSpecialtyBySpecialty(specialty.id).map { employeeSpecialtyToEmployee(it) }
 
-    fun getById(id: Long): Single<Employee> = requestEmployeeSpecialtyById(id).map { employeeSpecialtyToEmployee(it).first() }
+    fun getById(id: Long): Maybe<Employee> = requestEmployeeSpecialtyById(id).map { employeeSpecialtyToEmployee(it).first() }
 
     @Insert
     abstract fun insertEntityEmployee(entityEmployee: EntityEmployee): Long
@@ -71,7 +71,7 @@ abstract class EmployeeDao {
         left join EmployeesSpecialties on Employees.id = employeeId 
         left join Specialties on Specialties.id = specialtyId
         Order by Employees.id""")
-    abstract fun requestAllEmployeeSpecialty(): Single<List<EmployeeSpecialty>>
+    abstract fun requestAllEmployeeSpecialty(): Maybe<List<EmployeeSpecialty>>
 
     // Сортировка по id упрощает обход выборки (после левых соединений выборка будет содержать дублирующиеся данные по employee)
     @Query("""Select Employees.*, Specialties.id as specialtyId, Specialties.name as specialtyName From Employees
@@ -79,13 +79,13 @@ abstract class EmployeeDao {
         left join Specialties on Specialties.id = specialtyId
         Where Specialties.id = :specialtyId
         Order by Employees.id""")
-    abstract fun requestEmployeeSpecialtyBySpecialty(specialtyId: Long): Single<List<EmployeeSpecialty>>
+    abstract fun requestEmployeeSpecialtyBySpecialty(specialtyId: Long): Maybe<List<EmployeeSpecialty>>
 
     @Query("""Select Employees.*, Specialties.id as specialtyId, Specialties.name as specialtyName From Employees
         left join EmployeesSpecialties on Employees.id = employeeId 
         left join Specialties on Specialties.id = specialtyId
         Where Employees.id = :employeeId""")
-    abstract fun requestEmployeeSpecialtyById(employeeId: Long): Single<List<EmployeeSpecialty>>
+    abstract fun requestEmployeeSpecialtyById(employeeId: Long): Maybe<List<EmployeeSpecialty>>
 
     @Query("Select Count(*) From Employees")
     abstract fun getCount(): Maybe<Long>

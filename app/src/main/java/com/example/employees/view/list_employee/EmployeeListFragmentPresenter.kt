@@ -1,5 +1,6 @@
 package com.example.employees.view.list_employee
 
+import android.util.Log
 import android.widget.ArrayAdapter
 import androidx.lifecycle.ViewModel
 import com.example.employees.App
@@ -19,6 +20,7 @@ import com.example.employees.utils.EmployeeScreen
 import io.reactivex.Maybe
 import io.reactivex.functions.Action
 import io.reactivex.functions.Consumer
+import org.reactivestreams.Subscription
 import java.util.*
 
 class EmployeeListFragmentPresenter: ViewModel(), EmployeeListFragmentContract.Presenter {
@@ -79,22 +81,23 @@ class EmployeeListFragmentPresenter: ViewModel(), EmployeeListFragmentContract.P
     private fun loadFromNetwork(){
         compositeDisposable.add(repositoryEmployee.getCount()
             .filter { it == 0L }
-            .flatMapSingle { networkInteractor.load() }
+            .flatMap { networkInteractor.load() }
+            .doOnError { Log.d("Employees", "Network error: $it") }
             .flatMapCompletable { repositoryEmployee.insertAll(it) }
+            .doOnError { Log.d("Employees", "Database error: $it") }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                /*{ view?.showToast("Download and insert data was completed")
-                    updateAdapter(repositoryEmployee.getAll())
-                    updateSpecialtyAdapter()},
-                { view?.showToast("Error: $it")}*/
+            .subscribe({
+                updateAdapter(repositoryEmployee.getAll())
+                updateSpecialtyAdapter()},
+                {throwable -> view?.showToast("Error: $throwable")}
             )
         )
     }
 
     private fun unSubscribeToUpdates() { compositeDisposable.clear() }
 
-    private fun updateAdapter(observable: Single<List<Employee>>) {
+    private fun updateAdapter(observable: Maybe<List<Employee>>) {
         compositeDisposable.add(observable
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -116,7 +119,7 @@ class EmployeeListFragmentPresenter: ViewModel(), EmployeeListFragmentContract.P
             })
     }
 
-    private fun getEmployeeObservable(specialtySpinnerPosition: Int): Single<List<Employee>> {
+    private fun getEmployeeObservable(specialtySpinnerPosition: Int): Maybe<List<Employee>> {
         val specialty = specialtyAdapter.getItem(specialtySpinnerPosition)!!
         return if (specialty.name == "All") repositoryEmployee.getAll() else repositoryEmployee.getBySpecialty(specialty)
     }

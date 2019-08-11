@@ -16,9 +16,9 @@ class RepositoryEmployeeImpl(
 
     override fun getCount(): Maybe<Long> = employeeDao.getCount()
 
-    override fun getAll(): Single<List<Employee>> = employeeDao.getAll()
+    override fun getAll(): Maybe<List<Employee>> = employeeDao.getAll()
 
-    override fun getById(id: Long): Single<Employee> = employeeDao.getById(id)
+    override fun getById(id: Long): Maybe<Employee> = employeeDao.getById(id)
 
-    override fun getBySpecialty(specialty: Specialty): Single<List<Employee>> = employeeDao.getBySpecialty(specialty)
+    override fun getBySpecialty(specialty: Specialty): Maybe<List<Employee>> = employeeDao.getBySpecialty(specialty)
 }

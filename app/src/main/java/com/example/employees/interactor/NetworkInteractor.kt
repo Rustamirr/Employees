@@ -3,6 +3,7 @@ package com.example.employees.interactor
 import com.example.employees.database.model.Employee
 import com.example.employees.database.model.Specialty
 import com.example.employees.network.NetworkApi
+import io.reactivex.Maybe
 import io.reactivex.Single
 import org.joda.time.LocalDate
 import java.text.SimpleDateFormat
@@ -11,7 +12,7 @@ import java.util.*
 class NetworkInteractor(
     private val networkApi: NetworkApi) {
 
-    fun load(): Single<List<Employee>> = networkApi.getEmployees()
+    fun load(): Maybe<List<Employee>> = networkApi.getEmployees()
         .map {networkResponse ->
             networkResponse.response.map {networkEmployee ->
                 Employee(improveName(networkEmployee.firstName),
