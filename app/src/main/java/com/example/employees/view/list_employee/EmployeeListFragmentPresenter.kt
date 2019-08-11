@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.example.employees.App
 import com.example.employees.database.model.Employee
 import com.example.employees.database.model.Specialty
+import com.example.employees.interactor.NetworkInteractor
 import com.example.employees.repository.RepositoryEmployee
 import com.example.employees.repository.RepositorySpecialty
 import io.reactivex.Single
@@ -27,8 +28,8 @@ class EmployeeListFragmentPresenter: ViewModel(), EmployeeListFragmentContract.P
     lateinit var specialtyAdapter: ArrayAdapter<Specialty>
     @Inject
     lateinit var cicerone: Cicerone<Router>
-    //@Inject
-    //lateinit var networkInteractor: NetworkInteractor
+    @Inject
+    lateinit var networkInjector: NetworkInteractor
 
     private var view: EmployeeListFragmentContract.View? = null
     private val compositeDisposable = CompositeDisposable()
@@ -36,7 +37,7 @@ class EmployeeListFragmentPresenter: ViewModel(), EmployeeListFragmentContract.P
 
     init {
         App.instance.injector.getMainActivityComponent().inject(this)
-        adapter.onCreate(this)
+        adapter.init(this)
         subscribeToUpdates()
     }
 
@@ -95,22 +96,5 @@ class EmployeeListFragmentPresenter: ViewModel(), EmployeeListFragmentContract.P
 
     override fun onItemClick(employee: Employee) {
         cicerone.router.navigateTo(EmployeeScreen(employee.id))
-    }
-
-    override fun download() {
-        //compositeDisposable.add(repositoryEmployee.getCount()
-         //   .filter { it == 0L }
-          //  .flatMap { networkInteractor.loadEmployees() }
-        /*compositeDisposable.add(networkInteractor.loadEmployees()
-            .flatMapObservable { Observable.fromIterable(it.response) }
-            .doOnNext {
-                repositoryEmployee.insert(networkInteractor.networkEmployeeToEmployee(it))
-            }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { view?.showToast("Completed successful") },
-                { view?.showToast("Completed with errors: ${it.message}") })
-        )*/
     }
 }

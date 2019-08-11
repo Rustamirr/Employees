@@ -31,7 +31,6 @@ class EmployeeListFragment: Fragment(), EmployeeListFragmentContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
         presenter = ViewModelProviders.of(this).get(EmployeeListFragmentPresenter::class.java)
     }
 
@@ -59,20 +58,6 @@ class EmployeeListFragment: Fragment(), EmployeeListFragmentContract.View {
         presenter.onDestroyView()
         unbinder.unbind()
         super.onDestroyView()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.employees_fragment, menu);
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-             R.id.menu_employees_fragment_download -> {
-                presenter.download()
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun setAdapter(adapter: EmployeeAdapter) {

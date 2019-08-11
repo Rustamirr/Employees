@@ -15,7 +15,7 @@ class EmployeeAdapter: RecyclerView.Adapter<EmployeeAdapter.ViewHolder>() {
     private var list: List<Employee>? = null
     lateinit var presenter: EmployeeListFragmentContract.Presenter
 
-    fun onCreate(presenter: EmployeeListFragmentContract.Presenter){
+    fun init(presenter: EmployeeListFragmentContract.Presenter){
         this.presenter = presenter
     }
 

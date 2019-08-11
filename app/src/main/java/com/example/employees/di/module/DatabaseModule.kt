@@ -26,7 +26,7 @@ class DatabaseModule(private val databaseName: String) {
             .addCallback(object : RoomDatabase.Callback(){
                 override fun onCreate(db: SupportSQLiteDatabase){
                     super.onCreate(db)
-                    createTestData(db)
+                    //createTestData(db)
                 }
             })
             .build()

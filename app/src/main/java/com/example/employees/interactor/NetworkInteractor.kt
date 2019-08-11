@@ -1,29 +1,29 @@
-/*package com.example.employees.interactor
+package com.example.employees.interactor
 
 import com.example.employees.database.model.Employee
 import com.example.employees.database.model.Specialty
 import com.example.employees.network.NetworkApi
-import com.example.employees.network.NetworkEmployee
-import com.example.employees.network.NetworkSpecialty
+import io.reactivex.Single
 import org.joda.time.LocalDate
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class NetworkInteractor(
     private val networkApi: NetworkApi) {
 
-    fun loadEmployees() = networkApi.getEmployees()
+    fun load(): Single<List<Employee>> = networkApi.getEmployees()
+        .map {networkResponse ->
+            networkResponse.response.map {networkEmployee ->
+                Employee(improveName(networkEmployee.firstName),
+                    improveName(networkEmployee.lastName),
+                    stringToDate(networkEmployee.birthday),
+                    null,
+                    null,
+                    networkEmployee.specialties.map { Specialty(it.id, it.name) }.toHashSet())
+            }
+        }
 
-    fun networkEmployeeToEmployee(networkEmployee: NetworkEmployee) = Employee(
-        firstName = getImprovedEmployeeName(networkEmployee.firstName),
-        lastName = getImprovedEmployeeName(networkEmployee.lastName),
-        birthday = stringToDate(networkEmployee.birthday),
-        avatarPath = null,
-        avatar = null,
-        specialties = networkSpecialtyToSpecialty(networkEmployee.specialties))
-
-    private fun getImprovedEmployeeName(name: String): String {
+    private fun improveName(name: String): String {
         var result = ""
         if (name != "") {
             result = name.toLowerCase()
@@ -41,6 +41,4 @@ class NetworkInteractor(
         }
         return LocalDate(format.parse(dateStr))
     }
-
-    private fun networkSpecialtyToSpecialty(list: List<NetworkSpecialty>): Set<Specialty> = list.map { Specialty(it.id, it.name) }
-}*/
+}
