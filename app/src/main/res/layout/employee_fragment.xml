@@ -9,7 +9,7 @@
     <ImageView
             android:id="@+id/employee_fragment_avatar"
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="250dp"
             android:contentDescription="@string/avatar"
             android:scaleType="fitXY"
             tools:srcCompat="@mipmap/ic_launcher"
