@@ -22,7 +22,7 @@ class EmployeeFragmentPresenter(employeeId: Long?): ViewModel(), EmployeeFragmen
     private var view: EmployeeFragmentContract.View? = null
     private lateinit var disposable: Disposable
 
-    private val dateTimeFormatter = DateTimeFormat.forPattern("dd/mm/yyyy")
+    private val dateTimeFormatter = DateTimeFormat.forPattern("dd.MM.YYYY")
     private val defaultBitmap = BitmapFactory.decodeResource(App.instance.resources, android.R.drawable.ic_menu_help)
 
     init {
