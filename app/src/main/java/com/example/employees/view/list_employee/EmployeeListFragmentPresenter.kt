@@ -9,19 +9,14 @@ import com.example.employees.database.model.Specialty
 import com.example.employees.interactor.NetworkInteractor
 import com.example.employees.repository.RepositoryEmployee
 import com.example.employees.repository.RepositorySpecialty
-import io.reactivex.Single
+import com.example.employees.utils.EmployeeScreen
+import io.reactivex.Maybe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import ru.terrakok.cicerone.Cicerone
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
-import com.example.employees.utils.EmployeeScreen
-import io.reactivex.Maybe
-import io.reactivex.functions.Action
-import io.reactivex.functions.Consumer
-import org.reactivestreams.Subscription
-import java.util.*
 
 class EmployeeListFragmentPresenter: ViewModel(), EmployeeListFragmentContract.Presenter {
     @Inject

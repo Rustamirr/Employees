@@ -1,9 +1,13 @@
 package com.example.employees.view.list_employee
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Spinner
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,8 +16,6 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.example.employees.R
-import android.widget.Spinner
-import android.widget.Toast
 import com.example.employees.database.model.Specialty
 
 class EmployeeListFragment: Fragment(), EmployeeListFragmentContract.View {

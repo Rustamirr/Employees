@@ -1,5 +1,6 @@
 package com.example.employees.database.dao
 
+import android.graphics.BitmapFactory
 import androidx.room.*
 import com.example.employees.database.entity.EntityEmployee
 import com.example.employees.database.entity.EntityEmployeeSpecialty
@@ -57,7 +58,7 @@ abstract class EmployeeDao {
             if (i == list.size - 1 || entityEmployee.id != list[i + 1].entityEmployee.id){
                 result.add(Employee(entityEmployee.id, entityEmployee.firstName, entityEmployee.lastName,
                     if (entityEmployee.birthday != null) LocalDate(entityEmployee.birthday) else null,
-                    entityEmployee.avatarPath, null, specialties))
+                    entityEmployee.avatarPath, BitmapFactory.decodeFile(entityEmployee.avatarPath), specialties))
                 if (i < list.size - 1) {
                     specialties.clear()
                 }

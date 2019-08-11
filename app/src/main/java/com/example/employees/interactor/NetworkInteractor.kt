@@ -1,25 +1,34 @@
 package com.example.employees.interactor
 
+import android.graphics.BitmapFactory
 import com.example.employees.database.model.Employee
 import com.example.employees.database.model.Specialty
 import com.example.employees.network.NetworkApi
 import io.reactivex.Maybe
-import io.reactivex.Single
 import org.joda.time.LocalDate
+import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
+import com.example.employees.utils.*
 
 class NetworkInteractor(
     private val networkApi: NetworkApi) {
 
     fun load(): Maybe<List<Employee>> = networkApi.getEmployees()
         .map {networkResponse ->
+            var counter = 0
             networkResponse.response.map {networkEmployee ->
+                counter++
+                val bitmap = try {
+                    BitmapFactory.decodeStream(URL(networkEmployee.avatarUrl).openConnection().getInputStream())
+                } catch (exception: Exception) {
+                    null
+                }
                 Employee(improveName(networkEmployee.firstName),
                     improveName(networkEmployee.lastName),
                     stringToDate(networkEmployee.birthday),
-                    null,
-                    null,
+                    if (bitmap != null) saveToFile(bitmap, counter.toString()) else null,
+                    bitmap,
                     networkEmployee.specialties.map { Specialty(it.id, it.name) }.toHashSet())
             }
         }
