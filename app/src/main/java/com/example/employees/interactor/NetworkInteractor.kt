@@ -32,13 +32,16 @@ class NetworkInteractor(
         return result
     }
 
-    private fun stringToDate(dateStr: String): LocalDate? {
-        // Определим формат даты по расположению разделителя
-        val format = when (dateStr.trim().indexOf("-")){
-            4 -> SimpleDateFormat("yyyy-MM-dd", Locale.US)
-            2 -> SimpleDateFormat("dd-MM-yyyy", Locale.US)
-            else -> throw Exception("Unknown birthday date format")
+    private fun stringToDate(dateStr: String?): LocalDate? {
+        return if (dateStr == null || dateStr.isEmpty()) null
+        else {
+            // Определим формат даты по расположению разделителя
+            val format = when (dateStr.trim().indexOf("-")) {
+                4 -> SimpleDateFormat("yyyy-MM-dd", Locale.US)
+                2 -> SimpleDateFormat("dd-MM-yyyy", Locale.US)
+                else -> return null
+            }
+            LocalDate(format.parse(dateStr))
         }
-        return LocalDate(format.parse(dateStr))
     }
 }

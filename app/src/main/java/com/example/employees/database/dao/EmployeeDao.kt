@@ -7,7 +7,10 @@ import com.example.employees.database.entity.EntitySpecialty
 import com.example.employees.database.model.Employee
 import com.example.employees.database.model.Specialty
 import com.example.employees.database.request.EmployeeSpecialty
+import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Single
+import io.reactivex.functions.Action
 import org.joda.time.LocalDate
 
 @Dao
@@ -21,6 +24,8 @@ abstract class EmployeeDao {
         }
     }
 
+    fun insertAll(employees: List<Employee>): Completable = Completable.fromAction { employees.forEach { insert(it) } }
+
     fun getAll(): Single<List<Employee>> = requestAllEmployeeSpecialty().map { employeeSpecialtyToEmployee(it) }
 
     fun getBySpecialty(specialty: Specialty): Single<List<Employee>> =
@@ -28,14 +33,13 @@ abstract class EmployeeDao {
 
     fun getById(id: Long): Single<Employee> = requestEmployeeSpecialtyById(id).map { employeeSpecialtyToEmployee(it).first() }
 
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     abstract fun insertEntityEmployee(entityEmployee: EntityEmployee): Long
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract fun insertEntitySpecialty(entitySpecialty: EntitySpecialty)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     abstract fun insertEntityEmployeeSpecialty(entityEmployeeSpecialty: EntityEmployeeSpecialty)
 
     private fun employeeSpecialtyToEmployee(list: List<EmployeeSpecialty>): List<Employee> {
@@ -83,6 +87,6 @@ abstract class EmployeeDao {
         Where Employees.id = :employeeId""")
     abstract fun requestEmployeeSpecialtyById(employeeId: Long): Single<List<EmployeeSpecialty>>
 
-    @Query("Select Count(*)")
-    abstract fun getCount(): Single<Long>
+    @Query("Select Count(*) From Employees")
+    abstract fun getCount(): Maybe<Long>
 }

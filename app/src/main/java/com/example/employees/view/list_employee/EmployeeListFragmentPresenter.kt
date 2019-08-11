@@ -16,6 +16,10 @@ import ru.terrakok.cicerone.Cicerone
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 import com.example.employees.utils.EmployeeScreen
+import io.reactivex.Maybe
+import io.reactivex.functions.Action
+import io.reactivex.functions.Consumer
+import java.util.*
 
 class EmployeeListFragmentPresenter: ViewModel(), EmployeeListFragmentContract.Presenter {
     @Inject
@@ -29,7 +33,7 @@ class EmployeeListFragmentPresenter: ViewModel(), EmployeeListFragmentContract.P
     @Inject
     lateinit var cicerone: Cicerone<Router>
     @Inject
-    lateinit var networkInjector: NetworkInteractor
+    lateinit var networkInteractor: NetworkInteractor
 
     private var view: EmployeeListFragmentContract.View? = null
     private val compositeDisposable = CompositeDisposable()
@@ -62,27 +66,33 @@ class EmployeeListFragmentPresenter: ViewModel(), EmployeeListFragmentContract.P
         }
     }
 
-    private fun subscribeToUpdates() { updateSpecialtyAdapter() }
+    override fun onItemClick(employee: Employee) {
+        cicerone.router.navigateTo(EmployeeScreen(employee.id))
+    }
 
-    private fun unSubscribeToUpdates() { compositeDisposable.clear() }
+    private fun subscribeToUpdates() {
+        loadFromNetwork()
+        updateAdapter(repositoryEmployee.getAll())
+        updateSpecialtyAdapter()
+    }
 
-    private fun updateSpecialtyAdapter() {
-        compositeDisposable.add(repositorySpecialty.getAll()
+    private fun loadFromNetwork(){
+        compositeDisposable.add(repositoryEmployee.getCount()
+            .filter { it == 0L }
+            .flatMapSingle { networkInteractor.load() }
+            .flatMapCompletable { repositoryEmployee.insertAll(it) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { list ->
-                specialtyAdapter.clear()
-                specialtyAdapter.add(Specialty(0, "All")) // Add filter all
-                specialtyAdapter.addAll(list)
-                specialtyAdapter.notifyDataSetChanged()
-                updateAdapter(getEmployeeObservable(0))
-            })
+            .subscribe(
+                /*{ view?.showToast("Download and insert data was completed")
+                    updateAdapter(repositoryEmployee.getAll())
+                    updateSpecialtyAdapter()},
+                { view?.showToast("Error: $it")}*/
+            )
+        )
     }
 
-    private fun getEmployeeObservable(specialtySpinnerPosition: Int): Single<List<Employee>> {
-        val specialty = specialtyAdapter.getItem(specialtySpinnerPosition)!!
-        return if (specialty.name == "All") repositoryEmployee.getAll() else repositoryEmployee.getBySpecialty(specialty)
-    }
+    private fun unSubscribeToUpdates() { compositeDisposable.clear() }
 
     private fun updateAdapter(observable: Single<List<Employee>>) {
         compositeDisposable.add(observable
@@ -94,7 +104,20 @@ class EmployeeListFragmentPresenter: ViewModel(), EmployeeListFragmentContract.P
             })
     }
 
-    override fun onItemClick(employee: Employee) {
-        cicerone.router.navigateTo(EmployeeScreen(employee.id))
+    private fun updateSpecialtyAdapter() {
+        compositeDisposable.add(repositorySpecialty.getAll()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { list ->
+                specialtyAdapter.clear()
+                specialtyAdapter.add(Specialty(0, "All")) // Add filter all
+                specialtyAdapter.addAll(list)
+                specialtyAdapter.notifyDataSetChanged()
+            })
+    }
+
+    private fun getEmployeeObservable(specialtySpinnerPosition: Int): Single<List<Employee>> {
+        val specialty = specialtyAdapter.getItem(specialtySpinnerPosition)!!
+        return if (specialty.name == "All") repositoryEmployee.getAll() else repositoryEmployee.getBySpecialty(specialty)
     }
 }
