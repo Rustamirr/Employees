@@ -3,12 +3,12 @@ package com.example.employees.network
 import android.graphics.BitmapFactory
 import com.example.employees.database.model.Employee
 import com.example.employees.database.model.Specialty
+import com.example.employees.utils.saveToFile
 import io.reactivex.Maybe
 import org.joda.time.LocalDate
 import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
-import com.example.employees.utils.*
 
 class NetworkInteractor(
     private val networkApi: NetworkApi) {

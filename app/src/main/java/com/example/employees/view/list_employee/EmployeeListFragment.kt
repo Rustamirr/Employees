@@ -1,5 +1,9 @@
 package com.example.employees.view.list_employee
 
+import android.Manifest
+import android.app.Activity
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +12,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +22,8 @@ import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.example.employees.R
 import com.example.employees.database.model.Specialty
+
+const val PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1
 
 class EmployeeListFragment: Fragment(), EmployeeListFragmentContract.View {
     companion object {
@@ -34,6 +41,7 @@ class EmployeeListFragment: Fragment(), EmployeeListFragmentContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         presenter = ViewModelProviders.of(this).get(EmployeeListFragmentPresenter::class.java)
+        presenter.onCreate(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -72,5 +80,26 @@ class EmployeeListFragment: Fragment(), EmployeeListFragmentContract.View {
 
     override fun showToast(text: String) {
         Toast.makeText(context, text, Toast.LENGTH_LONG).show()
+    }
+
+    // Permissions
+    override fun isPermissionsGranted() = ContextCompat.checkSelfPermission(activity as Activity,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+
+    override fun requestPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE)
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode){
+            PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    presenter.permissionsGranted()
+                }
+            }
+        }
     }
 }

@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel
 import com.example.employees.App
 import com.example.employees.database.model.Employee
 import com.example.employees.database.model.Specialty
-import com.example.employees.network.NetworkInteractor
 import com.example.employees.database.repository.RepositoryEmployee
 import com.example.employees.database.repository.RepositorySpecialty
+import com.example.employees.network.NetworkInteractor
 import com.example.employees.utils.EmployeeScreen
 import io.reactivex.Maybe
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -39,7 +39,11 @@ class EmployeeListFragmentPresenter: ViewModel(), EmployeeListFragmentContract.P
     init {
         App.instance.injector.getMainActivityComponent().inject(this)
         adapter.init(this)
-        subscribeToUpdates()
+    }
+
+    override fun onCreate(view: EmployeeListFragmentContract.View){
+        if (view.isPermissionsGranted()) subscribeToUpdates()
+        else view.requestPermissions()
     }
 
     override fun onViewCreated(view: EmployeeListFragmentContract.View) {
@@ -71,9 +75,9 @@ class EmployeeListFragmentPresenter: ViewModel(), EmployeeListFragmentContract.P
         cicerone.router.navigateTo(EmployeeScreen(employee.id))
     }
 
-    private fun subscribeToUpdates() {
-        loadFromNetwork()
-    }
+    override fun permissionsGranted() { subscribeToUpdates() }
+
+    private fun subscribeToUpdates() { loadFromNetwork() }
 
     private fun loadFromNetwork(){
         compositeDisposable.add(repositoryEmployee.getCount()
