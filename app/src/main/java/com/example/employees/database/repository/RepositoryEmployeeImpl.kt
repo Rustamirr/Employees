@@ -1,4 +1,4 @@
-package com.example.employees.repository
+package com.example.employees.database.repository
 
 import com.example.employees.database.dao.EmployeeDao
 import com.example.employees.database.model.Employee

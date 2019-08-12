@@ -9,10 +9,10 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.employees.database.AppDatabase
 import com.example.employees.database.dao.EmployeeDao
 import com.example.employees.database.dao.SpecialtyDao
-import com.example.employees.repository.RepositoryEmployee
-import com.example.employees.repository.RepositoryEmployeeImpl
-import com.example.employees.repository.RepositorySpecialty
-import com.example.employees.repository.RepositorySpecialtyImpl
+import com.example.employees.database.repository.RepositoryEmployee
+import com.example.employees.database.repository.RepositoryEmployeeImpl
+import com.example.employees.database.repository.RepositorySpecialty
+import com.example.employees.database.repository.RepositorySpecialtyImpl
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

@@ -1,107 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <ImageView
-            android:id="@+id/employee_fragment_avatar"
-            android:layout_width="0dp"
-            android:layout_height="250dp"
-            android:contentDescription="@string/avatar"
-            android:scaleType="fitXY"
-            tools:srcCompat="@mipmap/ic_launcher"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
 
-    <TextView
-            android:id="@+id/employee_fragment_first_name"
-            android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            tools:text="Иван" android:layout_marginTop="24dp"
-            app:layout_constraintTop_toBottomOf="@+id/employee_fragment_avatar" android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp" android:textStyle="bold"/>
+            android:orientation="vertical">
 
-    <TextView
-            android:id="@+id/employee_fragment_last_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            tools:text="Иванов"
-            app:layout_constraintStart_toEndOf="@+id/employee_fragment_first_name"
-            android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
-            app:layout_constraintTop_toTopOf="@+id/employee_fragment_first_name"
-            app:layout_constraintBottom_toBottomOf="@+id/employee_fragment_first_name"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
-            android:textStyle="bold"/>
+        <ImageView
+                android:id="@+id/employee_fragment_avatar"
+                android:layout_width="0dp"
+                android:layout_height="250dp"
+                android:contentDescription="@string/avatar"
+                android:scaleType="fitXY"
+                tools:srcCompat="@mipmap/ic_launcher"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toTopOf="parent" android:layout_marginStart="8dp"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="8dp"/>
 
-    <TextView
-            android:id="@+id/employee_fragment_birthday"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            tools:text="22.11.1987"
-            app:layout_constraintStart_toEndOf="@+id/textBirthday"
-            android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
-            app:layout_constraintTop_toTopOf="@+id/textBirthday"
-            app:layout_constraintBottom_toBottomOf="@+id/textBirthday" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp" android:layout_marginRight="8dp"/>
 
-    <TextView
-            android:id="@+id/employee_fragment_age"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            tools:text="33 years"
-            app:layout_constraintStart_toEndOf="@+id/textAge" android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            app:layout_constraintTop_toTopOf="@+id/textAge" app:layout_constraintBottom_toBottomOf="@+id/textAge"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp" android:layout_marginRight="8dp"/>
+        <TextView
+                android:id="@+id/employee_fragment_first_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                tools:text="Иван"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/employee_fragment_avatar" android:layout_marginStart="8dp"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"/>
 
-    <TextView
-            android:id="@+id/textSpecialties"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/specialties"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/textAge"/>
+        <TextView
+                android:id="@+id/employee_fragment_last_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                tools:text="Иванов"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/employee_fragment_first_name"
+                android:layout_marginStart="8dp" android:layout_marginLeft="8dp"
+                app:layout_constraintTop_toTopOf="@+id/employee_fragment_first_name"
+                app:layout_constraintBottom_toBottomOf="@+id/employee_fragment_first_name"
+                app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"/>
 
-    <TextView
-            android:id="@+id/employee_fragment_specialties"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            tools:text="Spec 1\nSpec 2\nSpec 3\nSpec 4"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/textSpecialties" android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp" android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="8dp" android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-    <TextView
-            android:text="@string/birthday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textBirthday" app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/employee_fragment_first_name"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
-    <TextView
-            android:text="@string/age"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textAge" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/textBirthday" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+        <TextView
+                android:id="@+id/employee_fragment_birthday"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                tools:text="22.11.1987"
+                app:layout_constraintStart_toEndOf="@+id/textBirthday"
+                android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
+                app:layout_constraintTop_toTopOf="@+id/textBirthday"
+                app:layout_constraintBottom_toBottomOf="@+id/textBirthday" app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp" android:layout_marginRight="8dp"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+                android:id="@+id/employee_fragment_age"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                tools:text="33 years"
+                app:layout_constraintTop_toTopOf="@+id/textAge"
+                app:layout_constraintBottom_toBottomOf="@+id/textAge" app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
+                app:layout_constraintStart_toEndOf="@+id/textAge" android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"/>
+
+        <TextView
+                android:id="@+id/textSpecialties"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/specialties"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/textAge" android:layout_marginStart="8dp"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
+                android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginRight="8dp"/>
+
+        <TextView
+                android:id="@+id/employee_fragment_specialties"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                tools:text="Spec 1\nSpec 2\nSpec 3\nSpec 4"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/textSpecialties" android:layout_marginStart="8dp"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
+                android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginRight="8dp" android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        <TextView
+                android:text="@string/birthday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textBirthday"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginLeft="8dp" android:layout_marginStart="8dp" android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/employee_fragment_first_name"/>
+        <TextView
+                android:text="@string/age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textAge"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginLeft="8dp" android:layout_marginStart="8dp" android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/textBirthday"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>
 
 

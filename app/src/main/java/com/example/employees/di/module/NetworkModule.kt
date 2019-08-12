@@ -1,6 +1,6 @@
 package com.example.employees.di.module
 
-import com.example.employees.interactor.NetworkInteractor
+import com.example.employees.network.NetworkInteractor
 import com.example.employees.network.NetworkApi
 import dagger.Module
 import dagger.Provides

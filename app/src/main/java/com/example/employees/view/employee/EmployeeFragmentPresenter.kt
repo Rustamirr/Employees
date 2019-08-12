@@ -4,12 +4,10 @@ import android.graphics.BitmapFactory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.employees.App
-import com.example.employees.R
 import com.example.employees.database.model.Employee
-import com.example.employees.repository.RepositoryEmployee
+import com.example.employees.database.repository.RepositoryEmployee
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Consumer
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.joda.time.format.DateTimeFormat
 import javax.inject.Inject
@@ -20,7 +18,7 @@ class EmployeeFragmentPresenter(employeeId: Long?): ViewModel(), EmployeeFragmen
 
     private var employee: Employee? = null
     private var view: EmployeeFragmentContract.View? = null
-    private lateinit var disposable: Disposable
+    private val compositeDisposable = CompositeDisposable()
 
     private val dateTimeFormatter = DateTimeFormat.forPattern("dd.MM.YYYY")
     private val defaultBitmap = BitmapFactory.decodeResource(App.instance.resources, android.R.drawable.ic_menu_help)
@@ -45,20 +43,17 @@ class EmployeeFragmentPresenter(employeeId: Long?): ViewModel(), EmployeeFragmen
     }
 
     private fun subscribeToUpdate(employeeId: Long){
-        disposable = repositoryEmployee.getById(employeeId)
+        compositeDisposable.add(repositoryEmployee.getById(employeeId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(Consumer {
+            .subscribe{
                 employee = it
                 updateUI()
-            })
+            }
+        )
     }
 
-    private fun unsubscribeToUpdate(){
-        if (!disposable.isDisposed) {
-            disposable.dispose()
-        }
-    }
+    private fun unsubscribeToUpdate(){ compositeDisposable.clear() }
 
     private fun updateUI(){
         if (view != null && employee != null) {

@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel
 import com.example.employees.App
 import com.example.employees.database.model.Employee
 import com.example.employees.database.model.Specialty
-import com.example.employees.interactor.NetworkInteractor
-import com.example.employees.repository.RepositoryEmployee
-import com.example.employees.repository.RepositorySpecialty
+import com.example.employees.network.NetworkInteractor
+import com.example.employees.database.repository.RepositoryEmployee
+import com.example.employees.database.repository.RepositorySpecialty
 import com.example.employees.utils.EmployeeScreen
 import io.reactivex.Maybe
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -48,7 +48,11 @@ class EmployeeListFragmentPresenter: ViewModel(), EmployeeListFragmentContract.P
         view.setSpecialtyAdapter(specialtyAdapter)
     }
 
-    override fun onDestroyView() { view = null }
+    override fun onDestroyView() {
+        view?.setAdapter(null)
+        view?.setSpecialtyAdapter(null)
+        view = null
+    }
 
     override fun onCleared() {
         super.onCleared()
@@ -69,8 +73,6 @@ class EmployeeListFragmentPresenter: ViewModel(), EmployeeListFragmentContract.P
 
     private fun subscribeToUpdates() {
         loadFromNetwork()
-        updateAdapter(repositoryEmployee.getAll())
-        updateSpecialtyAdapter()
     }
 
     private fun loadFromNetwork(){

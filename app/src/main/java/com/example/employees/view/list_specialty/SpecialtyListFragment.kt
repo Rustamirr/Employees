@@ -28,7 +28,7 @@ class SpecialtyListFragment: ListFragment(), SpecialtyListFragmentContract.View 
         super.onDestroyView()
     }
 
-    override fun setAdapter(adapter: ArrayAdapter<Specialty>) {
+    override fun setAdapter(adapter: ArrayAdapter<Specialty>?) {
         listAdapter = adapter
     }
 }

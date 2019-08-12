@@ -13,9 +13,9 @@ class Injector(app: App) {
 
     init {
         appComponent = DaggerAppComponent.builder()
-            .appModule(AppModule(app))
+            .appModule(AppModule(context = app))
             .databaseModule(DatabaseModule(databaseName = "Employees"))
-            .networkModule(NetworkModule("https://gitlab.65apps.com/65gb/static/raw/master/"))
+            .networkModule(NetworkModule(baseUrl = "https://gitlab.65apps.com/65gb/static/raw/master/"))
             .build()
     }
 

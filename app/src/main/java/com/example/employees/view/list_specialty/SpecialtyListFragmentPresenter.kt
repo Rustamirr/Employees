@@ -4,10 +4,9 @@ import android.widget.ArrayAdapter
 import androidx.lifecycle.ViewModel
 import com.example.employees.App
 import com.example.employees.database.model.Specialty
-import com.example.employees.repository.RepositorySpecialty
+import com.example.employees.database.repository.RepositorySpecialty
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
@@ -30,7 +29,10 @@ class SpecialtyListFragmentPresenter: ViewModel(), SpecialtyListFragmentContract
         view.setAdapter(adapter)
     }
 
-    override fun onDestroyView() { view = null }
+    override fun onDestroyView() {
+        view?.setAdapter(null)
+        view = null
+    }
 
     override fun onCleared() { unSubscribeToUpdates() }
 

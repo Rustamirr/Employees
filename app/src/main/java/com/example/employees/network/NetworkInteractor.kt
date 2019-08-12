@@ -1,9 +1,8 @@
-package com.example.employees.interactor
+package com.example.employees.network
 
 import android.graphics.BitmapFactory
 import com.example.employees.database.model.Employee
 import com.example.employees.database.model.Specialty
-import com.example.employees.network.NetworkApi
 import io.reactivex.Maybe
 import org.joda.time.LocalDate
 import java.net.URL

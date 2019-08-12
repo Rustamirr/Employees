@@ -1,10 +1,9 @@
-package com.example.employees.repository
+package com.example.employees.database.repository
 
 import com.example.employees.database.model.Employee
 import com.example.employees.database.model.Specialty
 import io.reactivex.Completable
 import io.reactivex.Maybe
-import io.reactivex.Single
 
 interface BaseRepository<T> {
     fun insert(t: T)

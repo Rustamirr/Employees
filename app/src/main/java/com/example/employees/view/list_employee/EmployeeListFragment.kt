@@ -62,11 +62,11 @@ class EmployeeListFragment: Fragment(), EmployeeListFragmentContract.View {
         super.onDestroyView()
     }
 
-    override fun setAdapter(adapter: EmployeeAdapter) {
+    override fun setAdapter(adapter: EmployeeAdapter?) {
         recyclerView.adapter = adapter
     }
 
-    override fun setSpecialtyAdapter(adapter: ArrayAdapter<Specialty>) {
+    override fun setSpecialtyAdapter(adapter: ArrayAdapter<Specialty>?) {
         specialtySpinner.adapter = adapter
     }
 

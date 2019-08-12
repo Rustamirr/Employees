@@ -6,8 +6,8 @@ import com.example.employees.database.model.Specialty
 
 interface EmployeeListFragmentContract {
     interface View {
-        fun setAdapter(adapter: EmployeeAdapter)
-        fun setSpecialtyAdapter(adapter: ArrayAdapter<Specialty>)
+        fun setAdapter(adapter: EmployeeAdapter?)
+        fun setSpecialtyAdapter(adapter: ArrayAdapter<Specialty>?)
         fun showToast(text: String)
     }
     interface Presenter{
